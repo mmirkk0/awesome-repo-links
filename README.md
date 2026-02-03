@@ -2,17 +2,6 @@
 
 A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Level Engineering, and Distributed Systems.
 
-## Contents
-- [Linux Internals & Kernel](#linux-internals--kernel)
-- [Virtualization, QEMU & Embedded](#virtualization-qemu--embedded)
-- [System Design & Distributed Systems](#system-design--distributed-systems)
-- [Algorithms & CS Fundamentals](#algorithms--cs-fundamentals)
-- [DevOps, Networking & Cloud](#devops-networking--cloud)
-- [AI, ML & GPU](#ai-ml--gpu)
-- [License & Disclaimer](#-disclaimer--license)
-
----
-
 ## Linux Internals & Kernel
 
 - **[Understanding the Linux Kernel (Sysdig)](https://www.sysdig.com/learn-cloud-native/understanding-linux-kernel)**
