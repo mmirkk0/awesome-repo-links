@@ -46,14 +46,12 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Synchronizing server clocks to 10 ns](https://www.linkedin.com/posts/urs-h%C3%B6lz_le_challenge-synchronize-the-local-clocks-of-activity-7387110594715348992-wFYY)**
 - **[21 Lessons from 14 Years at Google](https://www.oreilly.com/radar/21-lessons-from-14-years-at-google/)**
 - **[Computational Storage & Subsystem Local Memory](https://x.com/e_opore/status/2016132379744559142?s=46)**
-- **[IBM Redbook: Storage Solutions](https://www.redbooks.ibm.com/redbooks/pdfs/sg248502.pdf)**
 
 ## Algorithms & CS Fundamentals
 
 - **[Shortest Path: Dijkstra (Interactive)](https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-dijkstra/index_en.html)**
 - **[Shortest Path: A* (Interactive)](https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-a-star/index_en.html)**
 - **[Testing A-Star Algorithm](https://www.researchgate.net/figure/Testing-A-Star-algorithm-on-graph_fig5_348997309)**
-- **[Espectre (Spectre Exploit)](https://github.com/francescopace/espectre)**
 - **[BM25 Retrieval Method](https://www.linkedin.com/posts/lanchuhuong_remember-our-good-friend-bm25-that-empowers-activity-7389626664667889666-OGzF)**
 - **[Group Theory & Quantum Algorithms](https://www.ibm.com/quantum/blog/group-theory)**
 
