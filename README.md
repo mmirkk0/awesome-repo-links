@@ -24,6 +24,7 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Massey Linux Kernel Exploitation](https://rvasec.com/slides/2025/Massey_Linux_Kernel_Exploitation_For_Beginners.pdf)**
 - **[How to Clear RAM Cache, Buffer & Swap](https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/)**
 - **[QEMU + GDB Lab for Kernel Debugging](https://www.linkedin.com/posts/apgarcia_ive-been-using-kvm-for-a-sysadmin-lab-environment-activity-7389540826143485952-8bOp)**
+- **[How I became a Linux Kernel Contributor](https://lewboski.dev/blog/linux-kernel)**
 
 ## Virtualization, QEMU & Embedded
 
