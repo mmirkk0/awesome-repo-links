@@ -1,7 +1,6 @@
 # 🐧 Awesome Linux & Dev Resources
 
 A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Level Engineering, and Distributed Systems.
-*Regularly updated.*
 
 ## Contents
 - [Linux Internals & Kernel](#linux-internals--kernel)
@@ -80,5 +79,3 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 This repository is a personal collection of links and resources found on the web.
 All trademarks, logos, and linked content belong to their respective owners.
 This list is not for profit and serves solely as an index for study and sharing.
-
-OT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
