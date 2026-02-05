@@ -67,23 +67,19 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **Understanding the Linux Kernel - Daniel P. Bovet, Marco Cesati**
 - **Linux Kernel Development - Robert Love**
 - **Mastering eBPF - Wiliams D. Brown**
-#
 - **Designing Data-Intensive Applications - Martin Kleppmann**
 - **Designing Distributed Systems - Brendan Burns**
 - **Clean Architecture - Robert C. Martin**
-#
 - **Database Internals - Alex Petrov**
 - **Advanced Data Structures - Peter Brass**
 - **Algoritmi e strutture dati - Camil Demetrescu, Irene Finocchi, Giuseppe F. Italiano**
 - **Strutture di dati e algoritmi - P. Crescenzi, G. Gambosi, R. Grossi, G. Rossi**
 - **Differential Equations - Nate Ramer**
-#
 - **Amministrare GNU/Linux - Simone Piccardi**
 - **bash Idioms - Carl Albing, JP Vossen**
 - **Hands-on Go Programming - Sachidanand Singh, Prithvipal Singh**
 - **Ansible for DevOps - Jeff Geerling**
   
----
 
 ### ⚖️ Disclaimer
 
