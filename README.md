@@ -82,6 +82,7 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **bash Idioms - Carl Albing, JP Vossen**
 - **Hands-on Go Programming - Sachidanand Singh, Prithvipal Singh**
 - **Ansible for DevOps - Jeff Geerling**
+  
 ---
 
 ### ⚖️ Disclaimer
