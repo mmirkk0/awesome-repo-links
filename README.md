@@ -44,6 +44,7 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Testing A-Star Algorithm](https://www.researchgate.net/figure/Testing-A-Star-algorithm-on-graph_fig5_348997309)**
 - **[BM25 Retrieval Method](https://www.linkedin.com/posts/lanchuhuong_remember-our-good-friend-bm25-that-empowers-activity-7389626664667889666-OGzF)**
 - **[Group Theory & Quantum Algorithms](https://www.ibm.com/quantum/blog/group-theory)**
+- **[30 Blogs to Learn 30 System Design Concepts](https://x.com/ashishps_1/status/2018540277695483961?s=46)**
 
 ## DevOps, Networking & Cloud
 
@@ -51,7 +52,7 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Import provider network routes to OpenShift via BGP](https://developers.redhat.com/articles/2025/10/21/how-import-provider-network-routes-openshift-bgp)**
 - **[OpenShift & Kubernetes Ecosystem](https://www.linkedin.com/posts/anapedra_openshift-kubernetes-devops-activity-7417475817154277376-eeIa)**
 
-## AI, ML & GPU
+## AI,ML & CUDA
 
 - **[High-Performance Matrix Multiply in CUDA](https://developer.nvidia.com/blog/how-to-write-high-performance-matrix-multiply-in-nvidia-cuda-tile/)**
 - **[MatMul Deep Dive](https://aleksagordic.com/blog/matmul)**
@@ -60,6 +61,27 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Stanford AI & ML Cheatsheets](https://www.linkedin.com/posts/andreashorn1_stanford-university-%F0%9D%97%BF%F0%9D%97%B2%F0%9D%97%B9%F0%9D%97%B2%F0%9D%97%AE%F0%9D%98%80%F0%9D%97%B2%F0%9D%97%B1-%F0%9D%97%BC%F0%9D%97%B3-activity-7393190564092968960-VifK)**
 - **[MIT CS & GenAI](https://www.linkedin.com/posts/eordax_ai-computerscience-mit-activity-7408057467324153856-XWJU)**
 
+
+## My Library
+
+- **Understanding the Linux Kernel - Daniel P. Bovet, Marco Cesati**
+- **Linux Kernel Development - Robert Love**
+- **Mastering eBPF - Wiliams D. Brown**
+#
+- **Designing Data-Intensive Applications - Martin Kleppmann**
+- **Designing Distributed Systems - Brendan Burns**
+- **Clean Architecture - Robert C. Martin**
+#
+- **Database Internals - Alex Petrov**
+- **Advanced Data Structures - Peter Brass**
+- **Algoritmi e strutture dati - Camil Demetrescu, Irene Finocchi, Giuseppe F. Italiano**
+- **Strutture di dati e algoritmi - P. Crescenzi, G. Gambosi, R. Grossi, G. Rossi**
+- **Differential Equations - Nate Ramer**
+#
+- **Amministrare GNU/Linux - Simone Piccardi**
+- **bash Idioms - Carl Albing, JP Vossen**
+- **Hands-on Go Programming - Sachidanand Singh, Prithvipal Singh**
+- **Ansible for DevOps - Jeff Geerling**
 ---
 
 ### ⚖️ Disclaimer
