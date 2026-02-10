@@ -14,6 +14,12 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[How to Clear RAM Cache, Buffer & Swap](https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/)**
 - **[QEMU + GDB Lab for Kernel Debugging](https://www.linkedin.com/posts/apgarcia_ive-been-using-kvm-for-a-sysadmin-lab-environment-activity-7389540826143485952-8bOp)**
 - **[How I became a Linux Kernel Contributor](https://lewboski.dev/blog/linux-kernel)**
+- **[Building a TCP/IP Stack in C from Scratch](https://x.com/thegracia_here/status/2020279576904261924?s=46)**
+- **[Uros Popovic chmod - Linux syscall](https://x.com/popovicu94/status/2020736946918903972?s=46)**
+- **[Building an Operating System Kernel in C from Scratch](https://x.com/adriksh/status/2020274486923378838?s=46)**
+- **[Brendan Gregg's Blog Why I joined OpenAI](https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html)**
+- **[Brendan Gregg Linux Extended BPF (eBPF) Tracing Tools](https://www.brendangregg.com/ebpf.html)**
+- **[ppt Performance analysis superpowers with Linux eBPF](https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021)**
 
 ## Virtualization, QEMU & Embedded
 
