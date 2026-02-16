@@ -20,7 +20,7 @@ A curated list of resources on Linux Kernel, System Design, Algorithms, Low-Leve
 - **[Brendan Gregg's Blog Why I joined OpenAI](https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html)**
 - **[Brendan Gregg Linux Extended BPF (eBPF) Tracing Tools](https://www.brendangregg.com/ebpf.html)**
 - **[ppt Performance analysis superpowers with Linux eBPF](https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021)**
-- **[io_uring as the the modern high-performance interface for I/O in Linux.](https://www.linkedin.com/posts/dorser_iouring-is-the-modern-high-performance-interface-activity-7428881842260451328-u4yH?utm_source=share&utm_medium=member_desktop&rcm=ACoAADKuYcwB1gNSkXf6E6YaNholDq4NV9b02UA)**
+- **[io_uring, modern high-perf interface for I/O in Linux](https://www.linkedin.com/posts/dorser_iouring-is-the-modern-high-performance-interface-activity-7428881842260451328-u4yH?utm_source=share&utm_medium=member_desktop&rcm=ACoAADKuYcwB1gNSkXf6E6YaNholDq4NV9b02UA)**
 
 ## Virtualization, QEMU & Embedded
 
