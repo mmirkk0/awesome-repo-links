@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Awesome Linux & Dev Resources by mmirkk0">
+    <title>Awesome Linux & Dev Resources</title>
+    <style>
+        /* LaTeX / Scientific Paper Style */
+        body {
+            font-family: "Computer Modern", "Times New Roman", Times, serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        main {
+            max-width: 800px;
+            width: 100%;
+            counter-reset: section;
+        }
+
+        /* Title and Abstract */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #000000;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: normal;
+            margin-bottom: 1rem;
+        }
+
+        .author {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .abstract {
+            font-size: 0.95rem;
+            text-align: justify;
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        .abstract strong {
+            font-variant: small-caps;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            counter-increment: section;
+        }
+
+        h2::before {
+            content: counter(section) ". ";
+        }
+
+        /* Lists and Links */
+        ul {
+            list-style-type: disc;
+            padding-left: 2.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+            text-align: left;
+        }
+
+        a {
+            color: #0000ee; /* Classic hyperlink blue */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: #551a8b; /* Classic visited link purple */
+        }
+
+        /* Library List specific style */
+        .library-list li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #ccc;
+            padding: 0.2rem 0;
+            list-style-type: none;
+            margin-left: -2.5rem;
+        }
+
+        .library-list strong {
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        .book-author {
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 1rem;
+            border-top: 1px solid #000000;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .library-list li {
+                flex-direction: column;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+            .abstract {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <header>
+            <h1>Awesome Linux & Dev Resources</h1>
+            <div class="author">Curated by mmirkk0</div>
+            <div class="abstract">
+                <strong>Abstract—</strong> This document presents a curated index of technical resources focusing on Linux Internals, System Design, Algorithms, Low-Level Engineering, and Distributed Systems. It is intended to serve as a reference architecture for advanced operating system performance tuning, kernel debugging, and computer science fundamentals.
+            </div>
+        </header>
+
+        <section id="linux">
+            <h2>Linux Internals & Kernel</h2>
+            <ul>
+                <li><a href="https://www.brendangregg.com/overview.html" target="_blank" rel="noopener noreferrer">Brendan Gregg site</a></li>
+                <li><a href="https://www.brendangregg.com/linuxperf.html" target="_blank" rel="noopener noreferrer"> Linux Performance - Brendan Gregg site</a></li>
+                <li><a href="https://www.sysdig.com/learn-cloud-native/understanding-linux-kernel" target="_blank" rel="noopener noreferrer">Understanding the Linux Kernel (Sysdig)</a></li>
+                <li><a href="https://kernelmeet.com/topic/4/faq.-how-to-contribute-to-the-linux-kernel" target="_blank" rel="noopener noreferrer">FAQ: How to Contribute to the Linux Kernel</a></li>
+                <li><a href="https://www.linkedin.com/posts/avinash-pal-b885a026b_linuxkernel-memorymanagement-kerneldevelopment-activity-7396464268851728384-OUV9" target="_blank" rel="noopener noreferrer">Linux Kernel Memory Management APIs</a></li>
+                <li><a href="https://www.linkedin.com/posts/avinash-pal-b885a026b_include-include-include-activity-7392616915224952833-6tZx" target="_blank" rel="noopener noreferrer">C Headers & Low Level Programming</a></li>
+                <li><a href="https://www.slideshare.net/slideshow/linux-kernel-virtual-file-system/250698998" target="_blank" rel="noopener noreferrer">Linux Virtual File System (VFS)</a></li>
+                <li><a href="https://www.phoronix.com/news/Linux-Open-Tree-Namespace" target="_blank" rel="noopener noreferrer">OPEN_TREE_NAMESPACE (Phoronix)</a></li>
+                <li><a href="https://rvasec.com/slides/2025/Massey_Linux_Kernel_Exploitation_For_Beginners.pdf" target="_blank" rel="noopener noreferrer">Massey Linux Kernel Exploitation</a></li>
+                <li><a href="https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/" target="_blank" rel="noopener noreferrer">How to Clear RAM Cache, Buffer & Swap</a></li>
+                <li><a href="https://www.linkedin.com/posts/apgarcia_ive-been-using-kvm-for-a-sysadmin-lab-environment-activity-7389540826143485952-8bOp" target="_blank" rel="noopener noreferrer">QEMU + GDB Lab for Kernel Debugging</a></li>
+                <li><a href="https://lewboski.dev/blog/linux-kernel" target="_blank" rel="noopener noreferrer">How I became a Linux Kernel Contributor</a></li>
+                <li><a href="https://x.com/thegracia_here/status/2020279576904261924?s=46" target="_blank" rel="noopener noreferrer">Building a TCP/IP Stack in C from Scratch</a></li>
+                <li><a href="https://x.com/popovicu94/status/2020736946918903972?s=46" target="_blank" rel="noopener noreferrer">Uros Popovic chmod - Linux syscall</a></li>
+                <li><a href="https://x.com/adriksh/status/2020274486923378838?s=46" target="_blank" rel="noopener noreferrer">Building an Operating System Kernel in C from Scratch</a></li>
+                <li><a href="https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html" target="_blank" rel="noopener noreferrer">Brendan Gregg's Blog: Why I joined OpenAI</a></li>
+                <li><a href="https://www.brendangregg.com/ebpf.html" target="_blank" rel="noopener noreferrer">Brendan Gregg Linux Extended BPF (eBPF) Tracing Tools</a></li>
+                <li><a href="https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021" target="_blank" rel="noopener noreferrer">Performance analysis superpowers with Linux eBPF (PPT)</a></li>
+                <li><a href="https://www.linkedin.com/posts/dorser_iouring-is-the-modern-high-performance-interface-activity-7428881842260451328-u4yH" target="_blank" rel="noopener noreferrer">io_uring, modern high-perf interface for I/O in Linux</a></li>
+                <li><a href="https://youtu.be/VPKvivKfo1s?si=NGKBJ4V72qijZTd7" target="_blank" rel="noopener noreferrer">How the Linux Kernel Probes Your Device Drivers</a></li>
+                <li><a href="https://www.linkedin.com/posts/austin-kim-638214147_linux-kernel-debugging-when-should-we-use-share-7438573031070863360-I-fq" target="_blank" rel="noopener noreferrer">Linux Kernel Debugging: When should we use it?</a></li>
+                <li><a href="https://easyperf.net/blog/2024/02/12/Memory-Profiling-Part1?utm_source=tldrwebdev" target="_blank" rel="noopener noreferrer">Memory Profiling - Part 1 (Easyperf)</a></li>
+                <li><a href="https://www.linkedin.com/pulse/how-linux-threads-actually-work-clone-thread-groups-shared-santhosh-rgw1c" target="_blank" rel="noopener noreferrer">How Linux Threads Actually Work (clone & thread groups)</a></li>
+                <li><a href="https://blog.marvinpascale.it/posts/2026/linux-ram/" target="_blank" rel="noopener noreferrer">Deep Dive into Linux RAM Management Internals</a></li>
+                <li><a href="https://medium.com/@kimth0312/computer-architecture-block-i-o-optimization-18a3f64458e1" target="_blank" rel="noopener noreferrer">Computer Architecture: Block I/O Optimization</a></li>
+                <li><a href="https://rodrigolira.eti.br/linux-performance-tuning-recursos-de-hardware/" target="_blank" rel="noopener noreferrer">Linux Performance Tuning: Recursos de Hardware</a></li>
+                <li><a href="https://lwn.net/Articles/608497/" target="_blank" rel="noopener noreferrer">LWN: Multi-Queue Block Layer Queueing (blk-mq)</a></li>
+                <li><a href="https://explore.jobs.netflix.net/careers/job?domain=netflix.com&pid=790314775340&query=Performance%20&location=any&Teams=Engineering" target="_blank" rel="noopener noreferrer">Netflix Core Performance Engineering - Role & Architecture Specs</a></li>
+            </ul>
+        </section>
+
+        <section id="virtualization">
+            <h2>Virtualization, QEMU & Embedded</h2>
+            <ul>
+                <li><a href="https://popovicu.com/posts/making-a-micro-linux-distro/" target="_blank" rel="noopener noreferrer">Making a micro Linux distro</a></li>
+                <li><a href="https://popovicu.com/posts/making-a-mini-computer-from-scratch-with-raspberry-pi-and-linux/" target="_blank" rel="noopener noreferrer">Making a mini computer from scratch</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_heres-a-qemu-superpower-for-running-linux-activity-7395302108255862784-dbxJ" target="_blank" rel="noopener noreferrer">QEMU "Superpower": Boot without Install</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_how-to-run-linux-inside-linux-without-vm-activity-7402547927656599552-LLT3" target="_blank" rel="noopener noreferrer">Run Linux inside Linux (UML)</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_quick-linux-insight-no-need-to-write-loops-activity-7405775801532473344-hSHX" target="_blank" rel="noopener noreferrer">Polling vs Event-Driven</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_quick-linux-insight-tools-like-top-ps-activity-7403657027979522048-JsxT" target="_blank" rel="noopener noreferrer">The /proc filesystem explained</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_stop-downloading-4gb-isos-to-create-linux-activity-7398931197797675009-dJXI" target="_blank" rel="noopener noreferrer">Stop downloading 4GB ISOs</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_you-dont-necessarily-need-networking-to-activity-7399691698139869184-lrOF" target="_blank" rel="noopener noreferrer">VM Networking without Networking</a></li>
+                <li><a href="https://www.michaelamendy.com/blog/lfs-linux-from-scratch" target="_blank" rel="noopener noreferrer">LFS: Linux From Scratch Step-by-Step</a></li>
+                <li><a href="https://lfg.popovicu.com/series/from-zero-to-root/bootstrapping-alpine-with-apk-static/" target="_blank" rel="noopener noreferrer">Bootstrapping Alpine with apk-static</a></li>
+                <li><a href="https://github.com/wrightca1/edgenos" target="_blank" rel="noopener noreferrer">edgenos: Educational Microkernel/OS Operating System (GitHub)</a></li>
+            </ul>
+        </section>
+
+        <section id="system-design">
+            <h2>System Design & Distributed Systems</h2>
+            <ul>
+                <li><a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying" target="_blank" rel="noopener noreferrer">The Log: Real-time data's unifying abstraction</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/milanmilanovic_%25F0%259D%2597%259B%25F0%259D%2597%25BC%25F0%259D%2598%2584-%25F0%259D%2597%2594%25F0%259D%2597%25BD%25F0%259D%2597%25AE%25F0%259D%2597%25B0%25F0%259D%2597%25B5%25F0%259D%2597%25B2-%25F0%259D%2597%259E%25F0%259D%2597%25AE%25F0%259D%2597%25B3%25F0%259D%2597%25B8%25F0%259D%2597%25AE-%25F0%259D%2598%2584%25F0%259D%2597%25BC%25F0%259D%2597%25BF%25F0%259D%2597%25B2%25F0%259D%2598%2580-activity-7388839545615831040-VToV" target="_blank" rel="noopener noreferrer">How Apache Kafka Works</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_kafka-is-not-a-queue-its-a-commit-log-disguised-activity-7390789286918291457-caA4" target="_blank" rel="noopener noreferrer">Kafka is not a Queue</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_10-latency-facts-every-engineer-should-know-activity-7391156241256873985-1xXc" target="_blank" rel="noopener noreferrer">10 Latency Facts Every Engineer Should Know</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_lex-freidmans-podcast-with-pavel-durov-activity-7387937125322809344-e8Po" target="_blank" rel="noopener noreferrer">The impact of Latency on User Behavior</a></li>
+                <li><a href="https://www.linkedin.com/posts/urs-h%C3%B6lz_le_challenge-synchronize-the-local-clocks-of-activity-7387110594715348992-wFYY" target="_blank" rel="noopener noreferrer">Synchronizing server clocks to 10 ns</a></li>
+                <li><a href="https://www.oreilly.com/radar/21-lessons-from-14-years-at-google/" target="_blank" rel="noopener noreferrer">21 Lessons from 14 Years at Google</a></li>
+                <li><a href="https://x.com/e_opore/status/2016132379744559142?s=46" target="_blank" rel="noopener noreferrer">Computational Storage & Subsystem Local Memory</a></li>
+                <li><a href="https://www.linkedin.com/posts/activity-7432857415970250752-rp4Q" target="_blank" rel="noopener noreferrer">Mutexes work... until they don't</a></li>
+                <li><a href="https://sqglobe.com/2025/08/17/behavior-vs-data-concurrency-protection/" target="_blank" rel="noopener noreferrer">Behavior vs Data Concurrency Protection</a></li>
+            </ul>
+        </section>
+
+        <section id="algorithms">
+            <h2>Algorithms & CS Fundamentals</h2>
+            <ul>
+                <li><a href="https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-dijkstra/index_en.html" target="_blank" rel="noopener noreferrer">Shortest Path: Dijkstra (Interactive)</a></li>
+                <li><a href="https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-a-star/index_en.html" target="_blank" rel="noopener noreferrer">Shortest Path: A* (Interactive)</a></li>
+                <li><a href="https://www.researchgate.net/figure/Testing-A-Star-algorithm-on-graph_fig5_348997309" target="_blank" rel="noopener noreferrer">Testing A-Star Algorithm</a></li>
+                <li><a href="https://www.linkedin.com/posts/lanchuhuong_remember-our-good-friend-bm25-that-empowers-activity-7389626664667889666-OGzF" target="_blank" rel="noopener noreferrer">BM25 Retrieval Method</a></li>
+                <li><a href="https://www.ibm.com/quantum/blog/group-theory" target="_blank" rel="noopener noreferrer">Group Theory & Quantum Algorithms</a></li>
+                <li><a href="https://x.com/ashishps_1/status/2018540277695483961?s=46" target="_blank" rel="noopener noreferrer">30 Blogs to Learn 30 System Design Concepts</a></li>
+            </ul>
+        </section>
+
+        <section id="devops">
+            <h2>DevOps, Networking & Cloud</h2>
+            <ul>
+                <li><a href="https://www.linkedin.com/posts/alexandre-zajac_softwarengineering-systemdesign-programming-activity-7386061174859190272-tKEz" target="_blank" rel="noopener noreferrer">Architecture as Code</a></li>
+                <li><a href="https://developers.redhat.com/articles/2025/10/21/how-import-provider-network-routes-openshift-bgp" target="_blank" rel="noopener noreferrer">Import provider network routes to OpenShift via BGP</a></li>
+                <li><a href="https://www.linkedin.com/posts/anapedra_openshift-kubernetes-devops-activity-7417475817154277376-eeIa" target="_blank" rel="noopener noreferrer">OpenShift & Kubernetes Ecosystem</a></li>
+                <li><a href="https://www.tecmint.com/ifconfig-command-examples/" target="_blank" rel="noopener noreferrer">15 Useful ifconfig Commands</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/activity-7428850541402808320-k23J/" target="_blank" rel="noopener noreferrer">Network Troubleshooting Guide</a></li>
+                <li><a href="https://x.com/stijnnoorman/status/2023766794092044340?s=46" target="_blank" rel="noopener noreferrer">iPerf3 & 10GbE Networking</a></li>
+                <li><a href="https://ipng.ch/s/articles/2026/06/06/vpp-and-evpn/vxlan-part-2/" target="_blank" rel="noopener noreferrer">VPP and EVPN: VXLAN Part 2</a></li>
+            </ul>
+        </section>
+
+        <section id="sysadmin">
+            <h2>SysAdmin Tools & Troubleshooting</h2>
+            <ul>
+                <li><a href="https://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/" target="_blank" rel="noopener noreferrer">How to Find Most Used Disk Space Directories</a></li>
+                <li><a href="https://www.tecmint.com/find-out-which-process-listening-on-a-particular-port/" target="_blank" rel="noopener noreferrer">Find Out Which Process Listening on a Particular Port</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/nigelargriffiths_nmon-for-linux-and-tools-update-i-found-activity-7429222691599101952-yGQQ/" target="_blank" rel="noopener noreferrer">nmon for Linux and tools update</a></li>
+                <li><a href="https://x.com/popovicu94/status/2029798826404631010" target="_blank" rel="noopener noreferrer">Linux Sysadmin Insights (Popovicu)</a></li>
+                <li><a href="https://pro.tecmint.com/blog/linux-disk-io-monitoring-tools/" target="_blank" rel="noopener noreferrer">Advanced Linux Disk I/O Monitoring Tools</a></li>
+                <li><a href="https://pro.tecmint.com/blog/linux-performance-monitoring-tools/" target="_blank" rel="noopener noreferrer">Essential Linux Performance Monitoring Tools</a></li>
+                <li><a href="https://www.tecmint.com/fsck-repair-file-system-errors-in-linux/" target="_blank" rel="noopener noreferrer">fsck: Repair File System Errors in Linux</a></li>
+                <li><a href="https://www.tecmint.com/mktemp-create-secure-temporary-files-linux/" target="_blank" rel="noopener noreferrer">mktemp: Create Secure Temporary Files</a></li>
+            </ul>
+        </section>
+
+        <section id="ai">
+            <h2>AI, ML & CUDA</h2>
+            <ul>
+                <li><a href="https://developer.nvidia.com/blog/how-to-write-high-performance-matrix-multiply-in-nvidia-cuda-tile/" target="_blank" rel="noopener noreferrer">High-Performance Matrix Multiply in CUDA</a></li>
+                <li><a href="https://aleksagordic.com/blog/matmul" target="_blank" rel="noopener noreferrer">MatMul Deep Dive</a></li>
+                <li><a href="https://www.linkedin.com/posts/sanjoydas_today-was-a-big-milestone-for-us-we-launched-activity-7402591654643490817-PUNq" target="_blank" rel="noopener noreferrer">CUDA Tile IR</a></li>
+                <li><a href="https://www.linkedin.com/posts/sasikeda_github-ibmibm-storage-scale-mcp-server-activity-7422173696628252673-vbXG" target="_blank" rel="noopener noreferrer">IBM Storage Scale MCP Server</a></li>
+                <li><a href="https://www.linkedin.com/posts/andreashorn1_stanford-university-%F0%9D%97%BF%F0%9D%97%B2%F0%9D%97%B9%F0%9D%97%B2%F0%9D%97%AE%F0%9D%98%80%F0%9D%97%B2%F0%9D%97%B1-%F0%9D%97%BC%F0%9D%97%B3-activity-7393190564092968960-VifK" target="_blank" rel="noopener noreferrer">Stanford AI & ML Cheatsheets</a></li>
+                <li><a href="https://www.linkedin.com/posts/eordax_ai-computerscience-mit-activity-7408057467324153856-XWJU" target="_blank" rel="noopener noreferrer">MIT CS & GenAI</a></li>
+            </ul>
+        </section>
+
+        <section id="library">
+            <h2>My Library</h2>
+            <ul class="library-list">
+                <li><strong>Systems Performance: Enterprise and the Cloud</strong><span class="book-author">Brendan Gregg</span></li>
+                <li><strong>Understanding the Linux Kernel</strong><span class="book-author">Daniel P. Bovet, Marco Cesati</span></li>
+                <li><strong>Linux Kernel Development</strong><span class="book-author">Robert Love</span></li>
+                <li><strong>Mastering eBPF</strong><span class="book-author">Wiliams D. Brown</span></li>
+                <li><strong>Designing Data-Intensive Applications</strong><span class="book-author">Martin Kleppmann</span></li>
+                <li><strong>Designing Distributed Systems</strong><span class="book-author">Brendan Burns</span></li>
+                <li><strong>Clean Architecture</strong><span class="book-author">Robert C. Martin</span></li>
+                <li><strong>Database Internals</strong><span class="book-author">Alex Petrov</span></li>
+                <li><strong>Advanced Data Structures</strong><span class="book-author">Peter Brass</span></li>
+                <li><strong>Algoritmi e strutture dati</strong><span class="book-author">Camil Demetrescu, Irene Finocchi, Giuseppe F. Italiano</span></li>
+                <li><strong>Strutture di dati e algoritmi</strong><span class="book-author">P. Crescenzi, G. Gambosi, R. Grossi, G. Rossi</span></li>
+                <li><strong>Differential Equations</strong><span class="book-author">Nate Ramer</span></li>
+                <li><strong>Amministrare GNU/Linux</strong><span class="book-author">Simone Piccardi</span></li>
+                <li><strong>bash Idioms</strong><span class="book-author">Carl Albing, JP Vossen</span></li>
+                <li><strong>Hands-on Go Programming</strong><span class="book-author">Sachidanand Singh, Prithvipal Singh</span></li>
+                <li><strong>Ansible for DevOps</strong><span class="book-author">Jeff Geerling</span></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>References and documentation indexed for study and sharing.</p>
+        </footer>
+    </main>
+
+</body>
+</html>
