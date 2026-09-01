@@ -1,1231 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Awesome Linux &amp; Dev Resources</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Awesome Linux & Dev Resources by Mirko B">
+    <title>Awesome Linux & Dev Resources</title>
+    <style>
+        
+        body {
+            font-family: "Computer Modern", "Times New Roman", Times, serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
 
-    *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+        main {
+            max-width: 800px;
+            width: 100%;
+            counter-reset: section;
+        }
 
-    body {
-        font-family: "Computer Modern", "Latin Modern", Georgia, "Times New Roman", Times, serif;
-        background: #fff;
-        color: #111;
-        line-height: 1.65;
-    }
+        /* Title and Abstract */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #000000;
+        }
 
-    /* View Switcher */
-    #view-switcher {
-        position: fixed;
-        bottom: 28px;
-        right: 28px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        z-index: 600;
-    }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: normal;
+            margin-bottom: 1rem;
+        }
 
-    .tab-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        font-size: 11px;
-        font-weight: 500;
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-        padding: 6px 13px;
-        border-radius: 20px;
-        cursor: pointer;
-        border: 1px solid #d1d5db;
-        background: #fffffff0;
-        color: #6b7280;
-        transition: all .15s;
-        white-space: nowrap;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 1px 4px #0000000f;
-    }
+        .author {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
 
-    .tab-btn:hover  { border-color: #3b82f6; color: #1f2328; background: #fff; }
-    .tab-btn.active { background: #1f2328; border-color: #1f2328; color: #fff; box-shadow: 0 2px 8px #00000022; }
-    .tab-btn svg    { width: 12px; height: 12px; flex-shrink: 0; }
+        .abstract {
+            font-size: 0.95rem;
+            text-align: justify;
+            width: 85%;
+            margin: 0 auto;
+        }
 
-    /* Views */
-    #view-list, #view-graph, #view-stats {
-        position: fixed;
-        inset: 0;
-        transition: opacity .18s, visibility .18s;
-    }
+        .abstract strong {
+            font-variant: small-caps;
+        }
 
-    #view-list  { overflow-y: auto; background: #fff; }
-    #view-graph { background: #f4f6f9; overflow: hidden; opacity: 0; visibility: hidden; }
-    #view-stats { overflow-y: auto; background: #f8fafc; opacity: 0; visibility: hidden; }
+        /* Sections */
+        section {
+            margin-bottom: 2.5rem;
+        }
 
-    #view-graph.active, #view-stats.active { opacity: 1; visibility: visible; }
-    #view-list.hidden, #view-stats.hidden, #view-graph.hidden { opacity: 0; visibility: hidden; }
+        h2 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            counter-increment: section;
+        }
 
-    /* Jump Nav */
-    #jump-nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: #ffffffee;
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid #e8e8e8;
-        padding: 7px 16px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
+        h2::before {
+            content: counter(section) ". ";
+        }
 
-    .jump-pill {
-        font-size: 10.5px;
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-        padding: 2px 9px;
-        border-radius: 20px;
-        cursor: pointer;
-        border: 1px solid #e5e7eb;
-        background: #fff;
-        color: #57606a;
-        transition: all .12s;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
+        /* Lists and Links */
+        ul {
+            list-style-type: disc;
+            padding-left: 2.5rem;
+        }
 
-    .jump-pill:hover  { border-color: #3b82f6; color: #3b82f6; }
-    .jump-pill .jp-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        li {
+            margin-bottom: 0.4rem;
+            text-align: left;
+        }
 
-    /* Search */
-    #list-search-wrap {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 1rem 1rem .3rem;
-        display: none;
-    }
+        a {
+            color: #0000ee; 
+            text-decoration: none;
+        }
 
-    #list-search {
-        width: 100%;
-        padding: 7px 13px;
-        border: 1px solid #d1d5db;
-        border-radius: 4px;
-        font-size: 13px;
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-        outline: none;
-        transition: border-color .15s;
-        background: #fafafa;
-    }
+        a:hover {
+            text-decoration: underline;
+        }
 
-    #list-search:focus { border-color: #555; background: #fff; }
+        a:visited {
+            color: #551a8b; 
+        }
 
-    #list-search-count {
-        font-size: 11px;
-        color: #94a3b8;
-        margin-top: 4px;
-        padding: 0 2px;
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-    }
+        /* Library List specific style */
+        .library-list li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #ccc;
+            padding: 0.2rem 0;
+            list-style-type: none;
+            margin-left: -2.5rem;
+        }
 
-    /* List View */
-    #list-inner {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 3rem 1rem 6rem;
-        counter-reset: section;
-    }
+        .library-list strong {
+            font-weight: normal;
+            font-style: italic;
+        }
 
-    /* Title and Abstract */
-    header {
-        text-align: center;
-        margin-bottom: 2.8rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid #ccc;
-    }
+        .book-author {
+            color: #444;
+            font-size: 0.9rem;
+        }
 
-    header h2 {
-        font-size: 1.75rem;
-        font-weight: normal;
-        letter-spacing: -.01em;
-        margin-bottom: .5rem;
-        line-height: 1.25;
-    }
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 1rem;
+            border-top: 1px solid #000000;
+            font-size: 0.85rem;
+            text-align: center;
+        }
 
-    .author { font-size: .95rem; color: #555; margin-bottom: .3rem; font-style: normal; }
-    .affil  { font-size: .82rem; color: #888; margin-bottom: 1.4rem; font-style: italic; }
-
-    .abstract          { font-size: .95rem; text-align: justify; width: 85%; margin: 0 auto; line-height: 1.6; }
-    .abstract strong   { font-variant: small-caps; }
-    .keywords          { font-size: .78rem; color: #666; margin-top: .6rem; }
-    .keywords b        { font-weight: 600; font-variant: small-caps; }
-
-    /* Sections */
-    section { margin-bottom: 2.4rem; }
-    .list-section-anchor { scroll-margin-top: 50px; }
-
-    h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: .65rem;
-        counter-increment: section;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border-bottom: 1px solid #e8e8e8;
-        padding-bottom: .3rem;
-    }
-
-    h3::before {
-        content: counter(section) ".";
-        color: #888;
-        font-weight: 400;
-        font-size: .92rem;
-        min-width: 1.4em;
-    }
-
-    .cat-badge { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-    /* Lists and Links */
-    ul { list-style: none; padding-left: 1.6rem; }
-    li { margin-bottom: .32rem; position: relative; font-size: .93rem; }
-    li::before  { content: "—"; position: absolute; left: -1.4rem; color: #aaa; }
-    li.hidden-item { display: none; }
-
-    a         { color: #1a0dab; text-decoration: none; }
-    a:hover   { text-decoration: underline; }
-    a:visited { color: #4b0082; }
-
-    /* Library List specific style */
-    .lib-list              { list-style: none; padding: 0; }
-    .lib-list li           { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dotted #ccc; padding: .22rem 0; font-size: .9rem; }
-    .lib-list li::before   { display: none; }
-    .lib-list strong       { font-style: italic; font-weight: normal; }
-    .book-author           { color: #666; font-size: .82rem; }
-
-    /* Footer */
-    footer {
-        margin-top: 3rem;
-        padding-top: .8rem;
-        border-top: 1px solid #ccc;
-        font-size: .78rem;
-        text-align: center;
-        color: #888;
-        font-style: italic;
-    }
-
-    .no-results {
-        padding: 2rem 0;
-        text-align: center;
-        color: #94a3b8;
-        font-size: .9rem;
-        display: none;
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-    }
-
-    /* Graph View */
-    #graph-svg         { width: 100%; height: 100%; display: block; cursor: grab; }
-    #graph-svg:active  { cursor: grabbing; }
-
-    .g-link            { stroke-opacity: .5; stroke-width: 2.5px; transition: stroke-opacity .2s, stroke-width .2s; }
-    .g-link.highlighted { stroke-opacity: .95; stroke-width: 4px; }
-    .g-link.dimmed     { stroke-opacity: .04; }
-
-    .g-node            { cursor: pointer; }
-    .g-node circle     { transition: filter .2s; }
-    .g-node.dimmed circle { opacity: .09; }
-    .g-node.dimmed text   { opacity: .05; }
-
-    .g-node-label {
-        pointer-events: none;
-        dominant-baseline: central;
-        text-anchor: middle;
-        font-size: 10px;
-        fill: #475569;
-        paint-order: stroke;
-        stroke: #f4f6f9;
-        stroke-width: 3px;
-        stroke-linejoin: round;
-    }
-
-    .g-node-label.cat { font-size: 12px; font-weight: 700; fill: #1e293b; stroke: #f4f6f9; stroke-width: 2px; }
-
-    /* Graph tooltip */
-    #g-tooltip {
-        position: fixed;
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 13px 16px;
-        max-width: 290px;
-        pointer-events: none;
-        opacity: 0;
-        transform: translateY(4px);
-        transition: opacity .14s, transform .14s;
-        z-index: 999;
-        font-size: 12.5px;
-        line-height: 1.6;
-        box-shadow: 0 8px 24px #00000014;
-    }
-
-    #g-tooltip.on            { opacity: 1; transform: translateY(0); }
-    #g-tooltip .tt-title     { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 6px; line-height: 1.4; }
-    #g-tooltip .tt-pill      { display: inline-block; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 1px 6px; font-size: 10.5px; color: #2563eb; margin: 2px 2px 0 0; }
-    #g-tooltip .tt-tag       { display: inline-block; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px 6px; font-size: 10.5px; color: #475569; margin: 2px 2px 0 0; cursor: pointer; transition: background .12s, color .12s; }
-    #g-tooltip .tt-tag:hover { background: #dbeafe; border-color: #93c5fd; color: #1d4ed8; }
-    #g-tooltip .tt-row       { color: #64748b; margin-top: 4px; font-size: 11.5px; }
-    #g-tooltip .tt-row span  { color: #334155; }
-    #g-tooltip .tt-divider   { height: 1px; background: #f1f5f9; margin: 8px 0; }
-    #g-tooltip .tt-hint      { margin-top: 8px; font-size: 11px; color: #2563eb; font-weight: 500; }
-    #g-tooltip .tt-book      { margin-top: 8px; font-size: 11px; color: #94a3b8; }
-
-    /* Graph overlays */
-    #g-breadcrumb {
-        position: absolute;
-        top: 12px; left: 12px;
-        display: none;
-        align-items: center;
-        gap: 7px;
-        font-size: 12px;
-        color: #64748b;
-        background: #ffffffee;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 5px 11px;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 2px 8px #0000000e;
-        z-index: 10;
-    }
-
-    #g-breadcrumb.on        { display: flex; }
-    #g-breadcrumb .bc-name  { color: #0f172a; font-weight: 600; }
-    #g-breadcrumb button    { background: none; border: none; color: #3b82f6; cursor: pointer; font-size: 12px; padding: 0; margin-left: 3px; }
-
-    #g-tag-filter {
-        position: absolute;
-        top: 12px; left: 12px;
-        align-items: center;
-        gap: 7px;
-        font-size: 12px;
-        color: #64748b;
-        background: #ffffffee;
-        border: 1px solid #bfdbfe;
-        border-radius: 8px;
-        padding: 5px 11px;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 2px 8px #0000000e;
-        z-index: 11;
-        display: none;
-    }
-
-    #g-tag-filter.on        { display: flex; }
-    #g-tag-filter .tf-label { color: #2563eb; font-weight: 600; }
-    #g-tag-filter button    { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 13px; padding: 0; margin-left: 4px; line-height: 1; }
-    #g-tag-filter button:hover { color: #ef4444; }
-
-    /* Graph search */
-    #g-search-wrap {
-        position: absolute;
-        top: 12px; right: 12px;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    #g-search {
-        padding: 6px 12px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        font-size: 12px;
-        outline: none;
-        background: #ffffffee;
-        backdrop-filter: blur(8px);
-        width: 200px;
-        transition: border-color .15s, width .2s;
-    }
-
-    #g-search:focus   { border-color: #3b82f6; background: #fff; width: 240px; }
-    #g-search-count   { font-size: 11px; color: #94a3b8; white-space: nowrap; }
-
-    /* Graph legend */
-    #g-legend {
-        position: absolute;
-        bottom: 14px; left: 14px;
-        background: #ffffffee;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 11px 14px;
-        font-size: 11px;
-        backdrop-filter: blur(6px);
-        box-shadow: 0 2px 10px #0000000c;
-        z-index: 10;
-        max-width: 200px;
-    }
-
-    .g-leg-title { font-weight: 700; color: #94a3b8; text-transform: uppercase; font-size: 10px; letter-spacing: .4px; margin-bottom: 7px; }
-    .g-leg-item  { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: #475569; font-size: 11px; cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background .12s; }
-    .g-leg-item:hover { background: #f1f5f9; }
-    .g-leg-dot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .g-leg-count { margin-left: auto; color: #94a3b8; font-size: 10px; }
-
-    #g-hint      { position: absolute; bottom: 14px; right: 14px; font-size: 10.5px; color: #cbd5e1; text-align: right; line-height: 1.9; z-index: 10; }
-    #g-stats-bar { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #94a3b8; z-index: 10; white-space: nowrap; background: #ffffffcc; padding: 3px 10px; border-radius: 20px; border: 1px solid #e2e8f0; }
-
-    /* Graph minimap */
-    #g-minimap {
-        position: absolute;
-        bottom: 14px; right: 14px;
-        width: 160px; height: 100px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        background: #ffffffdd;
-        box-shadow: 0 2px 8px #0000000c;
-        z-index: 10;
-        cursor: crosshair;
-        overflow: hidden;
-    }
-
-    /* Graph loading */
-    #g-loading {
-        position: absolute;
-        inset: 0;
-        background: #f4f6f9;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        z-index: 20;
-        transition: opacity .4s;
-    }
-
-    #g-loading.off  { opacity: 0; pointer-events: none; }
-    .g-ring         { width: 30px; height: 30px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: gspin .8s linear infinite; }
-    @keyframes gspin { to { transform: rotate(360deg); } }
-    #g-loading p    { font-size: 12px; color: #94a3b8; }
-
-    /* Stats View */
-    #stats-inner { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
-
-    .stats-header    { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb; }
-    .stats-header h2 { font-size: 1.6rem; font-weight: normal; color: #1f2328; margin-bottom: .4rem; }
-    .stats-header p  { font-size: .9rem; color: #57606a; }
-
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 2rem; }
-
-    .stat-card      { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px; text-align: center; }
-    .stat-card .val { font-size: 2rem; font-weight: 700; line-height: 1; color: #0f172a; margin-bottom: 4px; }
-    .stat-card .lbl { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: .4px; }
-
-    .stats-section    { margin-bottom: 2.5rem; }
-    .stats-section h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid #f1f5f9; }
-
-    .bar-row   { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
-    .bar-label { font-size: 12px; color: #475569; width: 180px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .bar-track { flex: 1; height: 14px; background: #f1f5f9; border-radius: 7px; overflow: hidden; }
-    .bar-fill  { height: 100%; border-radius: 7px; transition: width .4s; }
-    .bar-val   { font-size: 11px; color: #94a3b8; width: 28px; text-align: right; flex-shrink: 0; }
-
-    .multi-list    { display: flex; flex-direction: column; gap: 8px; }
-    .multi-item    { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; }
-    .multi-item a  { color: #0969da; font-size: 12.5px; text-decoration: none; line-height: 1.4; }
-    .multi-item a:hover { text-decoration: underline; }
-    .multi-cats    { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-    .multi-cat-pill { font-size: 10.5px; padding: 1px 7px; border-radius: 4px; font-weight: 500; color: #fff; }
-
-    @media (max-width: 600px) {
-        .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        .abstract   { width: 100%; }
-        .lib-list li { flex-direction: column; border-bottom: none; margin-bottom: .7rem; }
-        #g-search   { width: 150px; }
-        #g-search:focus { width: 170px; }
-    }
-
-</style>
+        @media (max-width: 600px) {
+            .library-list li {
+                flex-direction: column;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+            .abstract {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- FLOATING VIEW SWITCHER -->
-<div id="view-switcher">
-  <button class="tab-btn active" id="btn-list" onclick="showView('list')">
-    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 4h12v1.5H2zm0 3.5h12V9H2zm0 3.5h12V12.5H2z"/></svg>Index
-  </button>
-  <button class="tab-btn" id="btn-graph" onclick="showView('graph')">
-    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="2"/><circle cx="13" cy="3" r="2"/><circle cx="13" cy="13" r="2"/><circle cx="8" cy="8" r="1.5"/><line x1="5" y1="8" x2="6.5" y2="8" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="8" x2="11" y2="5" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="8" x2="11" y2="11" stroke="currentColor" stroke-width="1.2"/></svg>Graph
-  </button>
-  <button class="tab-btn" id="btn-stats" onclick="showView('stats')">
-    <svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="3" height="6"/><rect x="6" y="5" width="3" height="10"/><rect x="11" y="1" width="3" height="14"/></svg>Stats
-  </button>
-  <button class="tab-btn" id="btn-search" onclick="toggleSearch()">
-    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="6.5" cy="6.5" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="9.5" y1="9.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Search
-  </button>
-</div>
-
-<!-- LIST VIEW -->
-<div id="view-list">
-  <div id="jump-nav"></div>
-  <div id="list-search-wrap">
-    <input id="list-search" type="search" placeholder="Search titles and tags…" autocomplete="off"/>
-    <div id="list-search-count"></div>
-  </div>
-  <div id="list-inner">
-    <header>
-      <h2>Awesome Linux &amp; Dev Resources</h2>
-      <div class="affil">Personal Curated Index by Mirko Bertaccini</div>
+    <main>
+        <header>
+            <h1>Awesome Linux & Dev Resources</h1>
+            <div class="author">Curated by Mirko B</div>
             <div class="abstract">
                 <strong>Abstract—</strong> This document presents a curated index of technical resources focusing on Linux Internals, System Design, Algorithms, Distributed Systems, Networking and System Performance.
             </div>
-    </header>
-    <div id="list-sections"></div>
-    <section id="library-section" class="list-section-anchor">
-      <h3 style="counter-increment:none">My Library</h3>
-      <ul class="lib-list" id="lib-list"></ul>
-    </section>
-    <div class="no-results" id="no-results">No results found.</div>
-    <footer><p>References and documentation indexed for study and sharing.</p></footer>
-  </div>
-</div>
+        </header>
 
-<!-- GRAPH VIEW -->
-<div id="view-graph">
-  <div id="g-loading"><div class="g-ring"></div><p>Building graph…</p></div>
-  <svg id="graph-svg"></svg>
-  <div id="g-breadcrumb"><span>Viewing:</span><span class="bc-name" id="g-bc-name"></span><button id="g-bc-back">× All</button></div>
-  <div id="g-tag-filter"><span class="tf-label" id="g-tf-label"></span><button id="g-tf-clear" title="Clear filter">×</button></div>
-  <div id="g-search-wrap">
-    <span id="g-search-count"></span>
-    <input id="g-search" type="search" placeholder="🔍 Search graph…" autocomplete="off"/>
-  </div>
-  <div id="g-legend"><div class="g-leg-title">Categories</div><div id="g-legend-items"></div></div>
-  <div id="g-stats-bar"><span id="g-sn"></span> nodes · <span id="g-sl"></span> links</div>
-  <svg id="g-minimap"></svg>
-  <div id="g-hint">Scroll zoom · Drag pan<br>Click cat → focus · Hover → info<br>Click tag → filter</div>
-  <div id="g-tooltip"></div>
-</div>
+        <section id="linux">
+            <h2>Linux Internals & Kernel</h2>
+            <ul>
+                <li><a href="https://www.sysdig.com/learn-cloud-native/understanding-linux-kernel" target="_blank" rel="noopener noreferrer">Understanding the Linux Kernel (Sysdig)</a></li>
+                <li><a href="https://kernelmeet.com/topic/4/faq.-how-to-contribute-to-the-linux-kernel" target="_blank" rel="noopener noreferrer">FAQ: How to Contribute to the Linux Kernel</a></li>
+                <li><a href="https://www.linkedin.com/posts/avinash-pal-b885a026b_linuxkernel-memorymanagement-kerneldevelopment-activity-7396464268851728384-OUV9" target="_blank" rel="noopener noreferrer">Linux Kernel Memory Management APIs</a></li>
+                <li><a href="https://www.linkedin.com/posts/avinash-pal-b885a026b_include-include-include-activity-7392616915224952833-6tZx" target="_blank" rel="noopener noreferrer">C Headers & Low Level Programming</a></li>
+                <li><a href="https://www.slideshare.net/slideshow/linux-kernel-virtual-file-system/250698998" target="_blank" rel="noopener noreferrer">Linux Virtual File System (VFS)</a></li>
+                <li><a href="https://www.phoronix.com/news/Linux-Open-Tree-Namespace" target="_blank" rel="noopener noreferrer">OPEN_TREE_NAMESPACE (Phoronix)</a></li>
+                <li><a href="https://rvasec.com/slides/2025/Massey_Linux_Kernel_Exploitation_For_Beginners.pdf" target="_blank" rel="noopener noreferrer">Massey Linux Kernel Exploitation</a></li>
+                <li><a href="https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/" target="_blank" rel="noopener noreferrer">How to Clear RAM Cache, Buffer & Swap</a></li>
+                <li><a href="https://www.linkedin.com/posts/apgarcia_ive-been-using-kvm-for-a-sysadmin-lab-environment-activity-7389540826143485952-8bOp" target="_blank" rel="noopener noreferrer">QEMU + GDB Lab for Kernel Debugging</a></li>
+                <li><a href="https://lewboski.dev/blog/linux-kernel" target="_blank" rel="noopener noreferrer">How I became a Linux Kernel Contributor</a></li>
+                <li><a href="https://x.com/thegracia_here/status/2020279576904261924?s=46" target="_blank" rel="noopener noreferrer">Building a TCP/IP Stack in C from Scratch</a></li>
+                <li><a href="https://x.com/popovicu94/status/2020736946918903972?s=46" target="_blank" rel="noopener noreferrer">Uros Popovic chmod - Linux syscall</a></li>
+                <li><a href="https://x.com/adriksh/status/2020274486923378838?s=46" target="_blank" rel="noopener noreferrer">Building an Operating System Kernel in C from Scratch</a></li>
+                <li><a href="https://www.linux.org/docs/man8/bpf.html" target="_blank" rel="noopener noreferrer">BPF (Linux man page)</a></li>
+                <li><a href="https://www.kernel.org/doc/html/latest/bpf/index.html" target="_blank" rel="noopener noreferrer">BPF Documentation (kernel.org)</a></li>
+                <li><a href="https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf" target="_blank" rel="noopener noreferrer">Network Debugging with eBPF (Red Hat, 2018)</a></li>
+                <li><a href="https://www.linkedin.com/posts/dorser_iouring-is-the-modern-high-performance-interface-activity-7428881842260451328-u4yH" target="_blank" rel="noopener noreferrer">io_uring, modern high-perf interface for I/O in Linux</a></li>
+                <li><a href="https://youtu.be/VPKvivKfo1s?si=NGKBJ4V72qijZTd7" target="_blank" rel="noopener noreferrer">How the Linux Kernel Probes Your Device Drivers</a></li>
+                <li><a href="https://www.linkedin.com/posts/austin-kim-638214147_linux-kernel-debugging-when-should-we-use-share-7438573031070863360-I-fq" target="_blank" rel="noopener noreferrer">Linux Kernel Debugging: When should we use it?</a></li>
+                <li><a href="https://www.linkedin.com/pulse/how-linux-threads-actually-work-clone-thread-groups-shared-santhosh-rgw1c" target="_blank" rel="noopener noreferrer">How Linux Threads Actually Work (clone & thread groups)</a></li>
+                <li><a href="https://blog.marvinpascale.it/posts/2026/linux-ram/" target="_blank" rel="noopener noreferrer">Deep Dive into Linux RAM Management Internals</a></li>
+                <li><a href="https://www.linkedin.com/posts/iainmr_kernelconfigio-search-config-information-share-7480167767913041920-nlO-/?utm_source=share&utm_medium=member_ios&rcm=ACoAADKuYcwB1gNSkXf6E6YaNholDq4NV9b02UA" target="_blank" rel="noopener noreferrer">kernelconfig.io: Search Kernel Config Information</a></li>
+                <li><a href="https://www.youtube.com/watch?app=desktop&v=csSykRsRezM&t=58s" target="_blank" rel="noopener noreferrer">Guide To Become Linux Kernel Maintainer - Krzysztof Kozlowski</a></li>
+                <li><a href="https://github.com/kernel-mastery/Kernel-Mastery" target="_blank" rel="noopener noreferrer">Kernel Mastery (GitHub)</a></li>
+                <li><a href="https://www.tecmint.com/witr-why-process-is-running-linux/" target="_blank" rel="noopener noreferrer">witr: Why Is This Process Running? (Linux)</a></li>
+                <li><a href="https://lists.elisa.tech/g/linux-features/messages" target="_blank" rel="noopener noreferrer">ELISA Linux Features Mailing List</a></li>
+                <li><a href="https://elisa.tech/blog/2026/05/06/recap-safety-critical-linux-features-annual-update-feb-11-2026/" target="_blank" rel="noopener noreferrer">ELISA: Safety-Critical Linux Features Annual Update</a></li>
+                <li><a href="https://www.linkedin.com/posts/gopal-chakraborty-b6a7b91b_kernel-memory-embedded-activity-7486665626233696257-RPTT" target="_blank" rel="noopener noreferrer">Kernel Memory & Embedded Systems</a></li>
+                <li><a href="https://labs.iximiuz.com/tutorials/c-program-without-main-a1eea557" target="_blank" rel="noopener noreferrer">C Program Without main() (iximiuz Labs)</a></li>
+                <li><a href="https://matteocroce.it/blog/freebsd_linux_networking/#:~:text=Syscall%20overhead" target="_blank" rel="noopener noreferrer">FreeBSD vs Linux Networking: Syscall Overhead</a></li>
+                <li><a href="https://research.redhat.com/blog/publication/the-ebpf-runtime-in-the-linux-kernel/" target="_blank" rel="noopener noreferrer">The eBPF Runtime in the Linux Kernel (Red Hat Research)</a></li>
+                <li><a href="https://research.redhat.com/blog/publication/bringing-packet-queueing-to-xdp/" target="_blank" rel="noopener noreferrer">Bringing Packet Queueing to XDP (Red Hat Research)</a></li>
+                <li><a href="https://github.com/xdp-project/xdp-tools" target="_blank" rel="noopener noreferrer">xdp-tools (GitHub)</a></li>
+                <li><a href="https://www.linkedin.com/posts/austin-kim-638214147_finding-a-hidden-memory-leak-with-the-linux-ugcPost-7493669069909282816-r02s/" target="_blank" rel="noopener noreferrer">Finding a Hidden Memory Leak with the Linux Kernel</a></li>
+                <li><a href="https://www.linkedin.com/posts/gopal-chakraborty-b6a7b91b_kernel-threads-embedded-share-7494608095684247552-KsN5/" target="_blank" rel="noopener noreferrer">Kernel Threads & Embedded Systems</a></li>
+                <li><a href="https://www.linkedin.com/posts/martinkielski_cacheext-customizing-and-tracing-the-page-share-7494913096025784320-k2pM/" target="_blank" rel="noopener noreferrer">cacheext: Customizing and Tracing the Page Cache</a></li>
+                <li><a href="https://www.linkedin.com/posts/rinhizakura_just-a-few-days-ago-a-long-awaited-announcement-share-7496239220966195200-CDQf/" target="_blank" rel="noopener noreferrer">Long-Awaited Linux Kernel Announcement</a></li>
+                <li><a href="https://arxiv.org/html/2607.23900v1" target="_blank" rel="noopener noreferrer">KernelScript: Simplifying eBPF Development (arXiv)</a></li>
+                <li><a href="https://x.com/l1vsun/status/2088993353111159216?s=46" target="_blank" rel="noopener noreferrer">Linux Kernel Tweet (l1vsun)</a></li>
+                <li><a href="https://oneuptime.com/blog/post/2026-01-07-ebpf-kernel-parameter-tuning/view" target="_blank" rel="noopener noreferrer">eBPF Kernel Parameter Tuning (OneUptime)</a></li>
+                <li><a href="https://www.linkedin.com/pulse/its-never-too-late-my-first-linux-kernel-after-dozen-years-baing-jjlfc" target="_blank" rel="noopener noreferrer">My First Linux Kernel Contribution After a Dozen Years</a></li>
+            </ul>
+        </section>
 
-<!-- STATS VIEW -->
-<div id="view-stats">
-  <div id="stats-inner">
-    <div class="stats-header">
-      <h2>📊 Knowledge Base Statistics</h2>
-      <p>Generated from the index</p>
-    </div>
-    <div class="stats-grid" id="stats-cards"></div>
-    <div class="stats-section"><h3>Resources per Category</h3><div id="stats-by-cat"></div></div>
-    <div class="stats-section"><h3>Top 15 Tags</h3><div id="stats-by-tag"></div></div>
-    <div class="stats-section"><h3>Multi-Category Resources <span style="font-weight:400;color:#94a3b8;font-size:.85em">(appear in ≥ 2 categories)</span></h3><div class="multi-list" id="stats-multi"></div></div>
-  </div>
-</div>
+        <section id="perf-engineering">
+            <h2>Performance Engineering</h2>
+            <ul>
+                <li><a href="https://www.brendangregg.com/overview.html" target="_blank" rel="noopener noreferrer">Brendan Gregg site</a></li>
+                <li><a href="https://www.brendangregg.com/linuxperf.html" target="_blank" rel="noopener noreferrer">Linux Performance - Brendan Gregg site</a></li>
+                <li><a href="https://www.brendangregg.com/ebpf.html" target="_blank" rel="noopener noreferrer">Brendan Gregg: Linux Extended BPF (eBPF) Tracing Tools</a></li>
+                <li><a href="https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html" target="_blank" rel="noopener noreferrer">Brendan Gregg's Blog: Why I joined OpenAI</a></li>
+                <li><a href="https://www.brendangregg.com/blog/2025-08-04/when-to-hire-a-computer-performance-engineering-team-2025-part1.html" target="_blank" rel="noopener noreferrer">Brendan Gregg: When to Hire a Performance Engineering Team (Part 1)</a></li>
+                <li><a href="https://easyperf.net/blog/2024/02/12/Memory-Profiling-Part1?utm_source=tldrwebdev" target="_blank" rel="noopener noreferrer">Memory Profiling - Part 1 (Easyperf)</a></li>
+                <li><a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf" target="_blank" rel="noopener noreferrer">What Every Programmer Should Know About Memory (PDF)</a></li>
+                <li><a href="https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021" target="_blank" rel="noopener noreferrer">Performance Analysis Superpowers with Linux eBPF (PPT)</a></li>
+                <li><a href="https://medium.com/@kimth0312/computer-architecture-block-i-o-optimization-18a3f64458e1" target="_blank" rel="noopener noreferrer">Computer Architecture: Block I/O Optimization</a></li>
+                <li><a href="https://rodrigolira.eti.br/linux-performance-tuning-recursos-de-hardware/" target="_blank" rel="noopener noreferrer">Linux Performance Tuning: Recursos de Hardware</a></li>
+                <li><a href="https://lwn.net/Articles/608497/" target="_blank" rel="noopener noreferrer">LWN: Multi-Queue Block Layer Queueing (blk-mq)</a></li>
+                <li><a href="https://satyamnexus.substack.com/p/the-hidden-cost-of-bpf-calls-and?r=4govu5&utm_campaign=post&utm_medium=web&triedRedirect=true" target="_blank" rel="noopener noreferrer">The Hidden Cost of BPF Calls and Overhead</a></li>
+                <li><a href="https://research.redhat.com/blog/publication/efficient-continuous-latency-monitoring-with-ebpf/" target="_blank" rel="noopener noreferrer">Efficient Continuous Latency Monitoring with eBPF (Red Hat Research)</a></li>
+                <li><a href="https://www.linkedin.com/posts/shajeenahamed_linux-performance-systemsprogramming-share-7486099218567372804-O47p/" target="_blank" rel="noopener noreferrer">Linux Performance & Systems Programming</a></li>
+                <li><a href="https://www.linkedin.com/posts/fernando-franco-4696708_most-performance-problems-come-down-to-how-share-7488939809143427073-9VX3/" target="_blank" rel="noopener noreferrer">Most Performance Problems Come Down to Memory</a></li>
+                <li><a href="https://fede-vaccaro.github.io/hedgedb.github.io/performance.html#performance-update-on-zen-5-gen5-nvme" target="_blank" rel="noopener noreferrer">HedgeDB: Performance on Zen 5 Gen5 NVMe</a></li>
+                <li><a href="https://pro.tecmint.com/blog/linux-disk-io-monitoring-tools/" target="_blank" rel="noopener noreferrer">Advanced Linux Disk I/O Monitoring Tools</a></li>
+                <li><a href="https://pro.tecmint.com/blog/linux-performance-monitoring-tools/" target="_blank" rel="noopener noreferrer">Essential Linux Performance Monitoring Tools</a></li>
+                <li><a href="https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf" target="_blank" rel="noopener noreferrer">Network Performance Tuning by Red Hat (PDF)</a></li>
+                <li><a href="https://www.linkedin.com/posts/martinkielski_dont-stall-me-now-hiding-memory-latency-share-7493443990529384448-pFIT/" target="_blank" rel="noopener noreferrer">Don't Stall Me Now: Hiding Memory Latency</a></li>
+                <li><a href="https://haryachyy.wordpress.com/2026/08/10/mellanox-cqe-compression-why-mixed-traffic-collapses-100-gbe-receive/" target="_blank" rel="noopener noreferrer">Mellanox CQE Compression: Why Mixed Traffic Collapses 100GbE Receive</a></li>
+                <li><a href="https://multikernel.io/2026/08/16/multikernel-vs-kvm-lmbench/" target="_blank" rel="noopener noreferrer">Multikernel vs KVM: lmbench Benchmarks</a></li>
+                <li><a href="https://jeremyeder.com/2012/10/18/how-to-deal-with-latency-introduced-by-disk-io-activity/" target="_blank" rel="noopener noreferrer">How to Deal with Latency Introduced by Disk I/O Activity</a></li>
+            </ul>
+        </section>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
+        <section id="networking">
+            <h2>Networking</h2>
+            <ul>
+                <li><a href="https://www.tecmint.com/ifconfig-command-examples/" target="_blank" rel="noopener noreferrer">15 Useful ifconfig Commands</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/activity-7428850541402808320-k23J/" target="_blank" rel="noopener noreferrer">Network Troubleshooting Guide</a></li>
+                <li><a href="https://x.com/stijnnoorman/status/2023766794092044340?s=46" target="_blank" rel="noopener noreferrer">iPerf3 & 10GbE Networking</a></li>
+                <li><a href="https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf" target="_blank" rel="noopener noreferrer">Network Performance Tuning by Red Hat (PDF)</a></li>
+                <li><a href="https://datatracker.ietf.org/doc/html/rfc7432" target="_blank" rel="noopener noreferrer">RFC 7432: BGP MPLS-Based Ethernet VPN (EVPN)</a></li>
+                <li><a href="https://vincent.bernat.ch/en/blog/2017-vxlan-bgp-evpn" target="_blank" rel="noopener noreferrer">VXLAN & BGP EVPN (Vincent Bernat)</a></li>
+                <li><a href="https://fedepaol.github.io/blog/2024/05/09/l3evpn-using-frr-and-linux-vxlans/" target="_blank" rel="noopener noreferrer">L3 EVPN using FRR and Linux VXLANs</a></li>
+                <li><a href="https://www.denog.de/media/DENOG10/day2_1100_EVPN-to-the-host.pdf" target="_blank" rel="noopener noreferrer">EVPN to the Host (DENOG10 Slides)</a></li>
+                <li><a href="https://developers.redhat.com/articles/2026/04/29/boosting-speed-use-ebpf-and-netstacklat-troubleshoot-latency" target="_blank" rel="noopener noreferrer">Boosting Speed: Use eBPF and netstacklat to Troubleshoot Latency (Red Hat)</a></li>
+                <li><a href="https://developers.redhat.com/articles/2026/05/06/using-ebpf-red-hat-products" target="_blank" rel="noopener noreferrer">Using eBPF in Red Hat Products</a></li>
+                <li><a href="https://developers.redhat.com/articles/2025/11/03/using-ebpf-attribute-packet-drops-netfilter-rules" target="_blank" rel="noopener noreferrer">Using eBPF to Attribute Packet Drops to Netfilter Rules (Red Hat)</a></li>
+                <li><a href="https://developers.redhat.com/articles/2026/07/08/networkmanager-supports-ipv6-mostlye" target="_blank" rel="noopener noreferrer">NetworkManager Supports IPv6 (Mostly) (Red Hat)</a></li>
+                <li><a href="https://ipng.ch/s/articles/2025/07/12/vpp-and-evpn/vxlan-part-1/" target="_blank" rel="noopener noreferrer">VPP and EVPN: VXLAN Part 1</a></li>
+                <li><a href="https://ipng.ch/s/articles/2026/06/06/vpp-and-evpn/vxlan-part-2/" target="_blank" rel="noopener noreferrer">VPP and EVPN: VXLAN Part 2</a></li>
+                <li><a href="https://ipng.ch/s/articles/2026/06/13/vpp-and-evpn/vxlan-part-3/" target="_blank" rel="noopener noreferrer">VPP and EVPN: VXLAN Part 3</a></li>
+                <li><a href="https://ipng.ch/s/articles/2026/06/20/vpp-and-evpn/vxlan-part-4/" target="_blank" rel="noopener noreferrer">VPP and EVPN: VXLAN Part 4</a></li>
+                <li><a href="https://www.phoronix.com/news/KNOD-Network-Offload-AMD-GPUs" target="_blank" rel="noopener noreferrer">KNOD: Network Offload for AMD GPUs (Phoronix)</a></li>
+                <li><a href="https://fd.io/docs/whitepapers/FDioVPPwhitepaperJuly2017.pdf" target="_blank" rel="noopener noreferrer">FD.io VPP Whitepaper (PDF, 2017)</a></li>
+                <li><a href="https://zenodo.org/records/21838429?preview_file=Linux+Network+Stack+-+EN.pdf" target="_blank" rel="noopener noreferrer">Linux Network Stack (Zenodo, PDF)</a></li>
+                <li><a href="https://engineering.fb.com/2021/05/13/data-center-engineering/bgp/" target="_blank" rel="noopener noreferrer">How Facebook Uses BGP in Its Data Centers</a></li>
+                <li><a href="https://dl.acm.org/doi/epdf/10.1145/3789240.3829175" target="_blank" rel="noopener noreferrer">ACM Paper: Network Systems Research</a></li>
+                <li><a href="https://dl.acm.org/doi/epdf/10.1145/3819062" target="_blank" rel="noopener noreferrer">ACM Paper: Systems Research</a></li>
+            </ul>
+        </section>
 
-// ═══════════════════════════════════ DATA ════════════════════════════════════
+        <section id="virtualization">
+            <h2>Virtualization, QEMU & Embedded</h2>
+            <ul>
+                <li><a href="https://popovicu.com/posts/making-a-micro-linux-distro/" target="_blank" rel="noopener noreferrer">Making a micro Linux distro</a></li>
+                <li><a href="https://popovicu.com/posts/making-a-mini-computer-from-scratch-with-raspberry-pi-and-linux/" target="_blank" rel="noopener noreferrer">Making a mini computer from scratch</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_heres-a-qemu-superpower-for-running-linux-activity-7395302108255862784-dbxJ" target="_blank" rel="noopener noreferrer">QEMU "Superpower": Boot without Install</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_how-to-run-linux-inside-linux-without-vm-activity-7402547927656599552-LLT3" target="_blank" rel="noopener noreferrer">Run Linux inside Linux (UML)</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_quick-linux-insight-no-need-to-write-loops-activity-7405775801532473344-hSHX" target="_blank" rel="noopener noreferrer">Polling vs Event-Driven</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_quick-linux-insight-tools-like-top-ps-activity-7403657027979522048-JsxT" target="_blank" rel="noopener noreferrer">The /proc filesystem explained</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_stop-downloading-4gb-isos-to-create-linux-activity-7398931197797675009-dJXI" target="_blank" rel="noopener noreferrer">Stop downloading 4GB ISOs</a></li>
+                <li><a href="https://www.linkedin.com/posts/upopovic_you-dont-necessarily-need-networking-to-activity-7399691698139869184-lrOF" target="_blank" rel="noopener noreferrer">VM Networking without Networking</a></li>
+                <li><a href="https://www.michaelamendy.com/blog/lfs-linux-from-scratch" target="_blank" rel="noopener noreferrer">LFS: Linux From Scratch Step-by-Step</a></li>
+                <li><a href="https://lfg.popovicu.com/series/from-zero-to-root/bootstrapping-alpine-with-apk-static/" target="_blank" rel="noopener noreferrer">Bootstrapping Alpine with apk-static</a></li>
+                <li><a href="https://github.com/wrightca1/edgenos" target="_blank" rel="noopener noreferrer">edgenos: Educational Microkernel/OS Operating System (GitHub)</a></li>
+                <li><a href="https://unikraft.com/blog/1m-vms-single-box" target="_blank" rel="noopener noreferrer">Unikraft: 1 Million VMs on a Single Box</a></li>
+                <li><a href="https://m.youtube.com/watch?v=gkori8blA0k" target="_blank" rel="noopener noreferrer">QEMU/KVM Virtualization (YouTube)</a></li>
+                <li><a href="https://www.google.com/search?q=StarFive+VisionFive+2" target="_blank" rel="noopener noreferrer">StarFive VisionFive 2 (RISC-V SBC)</a></li>
+                <li><a href="https://github.com/dedekind/dedekind-share/blob/master/2026/qemu-live-migration.md" target="_blank" rel="noopener noreferrer">QEMU Live Migration (GitHub)</a></li>
+                <li><a href="https://github.com/WekaJosh/SBR-Config" target="_blank" rel="noopener noreferrer">Weka SBR Config (GitHub)</a></li>
+                <li><a href="https://zenodo.org/records/21809175" target="_blank" rel="noopener noreferrer">Zenodo: Systems Research Paper</a></li>
+            </ul>
+        </section>
 
-const CATEGORIES = [
-  {id:"cat_linux",    label:"Linux & Kernel",            color:"#3b82f6"},
-  {id:"cat_perf",     label:"Performance Engineering",   color:"#f59e0b"},
-  {id:"cat_net",      label:"Networking",                color:"#10b981"},
-  {id:"cat_virt",     label:"Virtualization & Embedded", color:"#06b6d4"},
-  {id:"cat_sysdes",   label:"System Design",             color:"#6366f1"},
-  {id:"cat_algo",     label:"Algorithms & CS",           color:"#a855f7"},
-  {id:"cat_devops",   label:"DevOps & Cloud",            color:"#22c55e"},
-  {id:"cat_sysadmin", label:"SysAdmin & Tools",          color:"#ef4444"},
-  {id:"cat_ai",       label:"AI / ML / CUDA",            color:"#ec4899"},
-  {id:"cat_library",  label:"My Library",                color:"#64748b"},
-];
+        <section id="system-design">
+            <h2>System Design & Distributed Systems</h2>
+            <ul>
+                <li><a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying" target="_blank" rel="noopener noreferrer">The Log: Real-time data's unifying abstraction</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/milanmilanovic_%25F0%259D%2597%259B%25F0%259D%2597%25BC%25F0%259D%2598%2584-%25F0%259D%2597%2594%25F0%259D%2597%25BD%25F0%259D%2597%25AE%25F0%259D%2597%25B0%25F0%259D%2597%25B5%25F0%259D%2597%25B2-%25F0%259D%2597%259E%25F0%259D%2597%25AE%25F0%259D%2597%25B3%25F0%259D%2597%25B8%25F0%259D%2597%25AE-%25F0%259D%2598%2584%25F0%259D%2597%25BC%25F0%259D%2597%25BF%25F0%259D%2597%25B2%25F0%259D%2598%2580-activity-7388839545615831040-VToV" target="_blank" rel="noopener noreferrer">How Apache Kafka Works</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_kafka-is-not-a-queue-its-a-commit-log-disguised-activity-7390789286918291457-caA4" target="_blank" rel="noopener noreferrer">Kafka is not a Queue</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_10-latency-facts-every-engineer-should-know-activity-7391156241256873985-1xXc" target="_blank" rel="noopener noreferrer">10 Latency Facts Every Engineer Should Know</a></li>
+                <li><a href="https://www.linkedin.com/posts/sukhad007_lex-freidmans-podcast-with-pavel-durov-activity-7387937125322809344-e8Po" target="_blank" rel="noopener noreferrer">The impact of Latency on User Behavior</a></li>
+                <li><a href="https://www.linkedin.com/posts/urs-h%C3%B6lz_le_challenge-synchronize-the-local-clocks-of-activity-7387110594715348992-wFYY" target="_blank" rel="noopener noreferrer">Synchronizing server clocks to 10 ns</a></li>
+                <li><a href="https://www.oreilly.com/radar/21-lessons-from-14-years-at-google/" target="_blank" rel="noopener noreferrer">21 Lessons from 14 Years at Google</a></li>
+                <li><a href="https://x.com/e_opore/status/2016132379744559142?s=46" target="_blank" rel="noopener noreferrer">Computational Storage & Subsystem Local Memory</a></li>
+                <li><a href="https://www.linkedin.com/posts/activity-7432857415970250752-rp4Q" target="_blank" rel="noopener noreferrer">Mutexes work... until they don't</a></li>
+                <li><a href="https://sqglobe.com/2025/08/17/behavior-vs-data-concurrency-protection/" target="_blank" rel="noopener noreferrer">Behavior vs Data Concurrency Protection</a></li>
+                <li><a href="https://www.linkedin.com/posts/koyamaso_our-paper-lustre-query-periodic-offline-share-7471826004139855872-IAvR/?utm_source=share&utm_medium=member_ios&rcm=ACoAADKuYcwB1gNSkXf6E6YaNholDq4NV9b02UA" target="_blank" rel="noopener noreferrer">Lustre Query Periodic Offline</a></li>
+                <li><a href="https://www.allthingsdistributed.com/2026/08/on-building-scalable-control-planes.html" target="_blank" rel="noopener noreferrer">On Building Scalable Control Planes (All Things Distributed)</a></li>
+                <li><a href="https://15721.courses.cs.cmu.edu/spring2016/papers/p743-leis.pdf" target="_blank" rel="noopener noreferrer">CMU: Morsel-Driven Parallelism in Database Query Processing (PDF)</a></li>
+            </ul>
+        </section>
 
-const RESOURCES = [
-  // Linux
-  {id:"r1",  title:"Understanding the Linux Kernel (Sysdig)",          url:"https://www.sysdig.com/learn-cloud-native/understanding-linux-kernel", cats:["cat_linux"], tags:["kernel","internals"]},
-  {id:"r2",  title:"FAQ: How to Contribute to the Linux Kernel",        url:"https://kernelmeet.com/topic/4/faq.-how-to-contribute-to-the-linux-kernel", cats:["cat_linux"], tags:["kernel","contribution"]},
-  {id:"r3",  title:"Linux Kernel Memory Management APIs",               url:"https://www.linkedin.com/posts/avinash-pal-b885a026b_linuxkernel-memorymanagement-kerneldevelopment-activity-7396464268851728384-OUV9", cats:["cat_linux","cat_perf"], tags:["kernel","memory"]},
-  {id:"r4",  title:"C Headers & Low Level Programming",                 url:"https://www.linkedin.com/posts/avinash-pal-b885a026b_include-include-include-activity-7392616915224952833-6tZx", cats:["cat_linux"], tags:["C","low-level"]},
-  {id:"r5",  title:"Linux Virtual File System (VFS)",                   url:"https://www.slideshare.net/slideshow/linux-kernel-virtual-file-system/250698998", cats:["cat_linux"], tags:["VFS","filesystem"]},
-  {id:"r6",  title:"OPEN_TREE_NAMESPACE (Phoronix)",                    url:"https://www.phoronix.com/news/Linux-Open-Tree-Namespace", cats:["cat_linux"], tags:["kernel","namespace"]},
-  {id:"r7",  title:"Massey Linux Kernel Exploitation",                  url:"https://rvasec.com/slides/2025/Massey_Linux_Kernel_Exploitation_For_Beginners.pdf", cats:["cat_linux"], tags:["kernel","security"]},
-  {id:"r8",  title:"How to Clear RAM Cache, Buffer & Swap",             url:"https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/", cats:["cat_linux","cat_sysadmin"], tags:["RAM","cache","swap"]},
-  {id:"r9",  title:"QEMU + GDB Lab for Kernel Debugging",               url:"https://www.linkedin.com/posts/apgarcia_ive-been-using-kvm-for-a-sysadmin-lab-environment-activity-7389540826143485952-8bOp", cats:["cat_linux","cat_virt"], tags:["QEMU","GDB","debug"]},
-  {id:"r10", title:"How I became a Linux Kernel Contributor",           url:"https://lewboski.dev/blog/linux-kernel", cats:["cat_linux"], tags:["kernel","contribution"]},
-  {id:"r11", title:"Building a TCP/IP Stack in C from Scratch",         url:"https://x.com/thegracia_here/status/2020279576904261924?s=46", cats:["cat_linux","cat_net"], tags:["TCP/IP","C"]},
-  {id:"r12", title:"Uros Popovic chmod - Linux syscall",                url:"https://x.com/popovicu94/status/2020736946918903972?s=46", cats:["cat_linux"], tags:["syscall","chmod"]},
-  {id:"r13", title:"Building an OS Kernel in C from Scratch",           url:"https://x.com/adriksh/status/2020274486923378838?s=46", cats:["cat_linux","cat_virt"], tags:["OS","kernel","C"]},
-  {id:"r14", title:"BPF (Linux man page)",                              url:"https://www.linux.org/docs/man8/bpf.html", cats:["cat_linux","cat_perf"], tags:["BPF","eBPF"]},
-  {id:"r15", title:"BPF Documentation (kernel.org)",                   url:"https://www.kernel.org/doc/html/latest/bpf/index.html", cats:["cat_linux","cat_perf"], tags:["BPF","docs"]},
-  {id:"r16", title:"Network Debugging with eBPF (Red Hat)",             url:"https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf", cats:["cat_linux","cat_net","cat_perf"], tags:["eBPF","network","debug"]},
-  {id:"r17", title:"io_uring: modern high-perf I/O interface",          url:"https://www.linkedin.com/posts/dorser_iouring-is-the-modern-high-performance-interface-activity-7428881842260451328-u4yH", cats:["cat_linux","cat_perf"], tags:["io_uring","async","I/O"]},
-  {id:"r18", title:"How the Linux Kernel Probes Your Device Drivers",   url:"https://youtu.be/VPKvivKfo1s?si=NGKBJ4V72qijZTd7", cats:["cat_linux"], tags:["kernel","driver","probe"]},
-  {id:"r19", title:"Linux Kernel Debugging: When to use it?",           url:"https://www.linkedin.com/posts/austin-kim-638214147_linux-kernel-debugging-when-should-we-use-share-7438573031070863360-I-fq", cats:["cat_linux"], tags:["kernel","debug"]},
-  {id:"r20", title:"How Linux Threads Actually Work",                   url:"https://www.linkedin.com/pulse/how-linux-threads-actually-work-clone-thread-groups-shared-santhosh-rgw1c", cats:["cat_linux"], tags:["threads","clone"]},
-  {id:"r21", title:"Deep Dive into Linux RAM Management Internals",     url:"https://blog.marvinpascale.it/posts/2026/linux-ram/", cats:["cat_linux","cat_perf"], tags:["RAM","memory","internals"]},
-  {id:"r22", title:"kernelconfig.io: Search Kernel Config",             url:"https://www.linkedin.com/posts/iainmr_kernelconfigio-search-config-information-share-7480167767913041920-nlO-/", cats:["cat_linux"], tags:["kernel","config","tool"]},
-  {id:"r23", title:"Guide To Become Linux Kernel Maintainer",           url:"https://www.youtube.com/watch?app=desktop&v=csSykRsRezM&t=58s", cats:["cat_linux"], tags:["kernel","maintainer"]},
-  {id:"r24", title:"Kernel Mastery (GitHub)",                           url:"https://github.com/kernel-mastery/Kernel-Mastery", cats:["cat_linux"], tags:["kernel","learning"]},
-  {id:"r25", title:"witr: Why Is This Process Running?",                url:"https://www.tecmint.com/witr-why-process-is-running-linux/", cats:["cat_linux","cat_sysadmin"], tags:["process","monitoring"]},
-  {id:"r26", title:"ELISA Linux Features Mailing List",                 url:"https://lists.elisa.tech/g/linux-features/messages", cats:["cat_linux"], tags:["ELISA","safety"]},
-  {id:"r27", title:"ELISA: Safety-Critical Linux Features",             url:"https://elisa.tech/blog/2026/05/06/recap-safety-critical-linux-features-annual-update-feb-11-2026/", cats:["cat_linux"], tags:["ELISA","safety-critical"]},
-  {id:"r28", title:"Kernel Memory & Embedded Systems",                  url:"https://www.linkedin.com/posts/gopal-chakraborty-b6a7b91b_kernel-memory-embedded-activity-7486665626233696257-RPTT", cats:["cat_linux","cat_virt"], tags:["kernel","memory","embedded"]},
-  {id:"r29", title:"C Program Without main() (iximiuz Labs)",           url:"https://labs.iximiuz.com/tutorials/c-program-without-main-a1eea557", cats:["cat_linux"], tags:["C","linker","ELF"]},
-  {id:"r30", title:"FreeBSD vs Linux Networking: Syscall Overhead",     url:"https://matteocroce.it/blog/freebsd_linux_networking/", cats:["cat_linux","cat_net"], tags:["FreeBSD","syscall"]},
-  {id:"r31", title:"The eBPF Runtime in the Linux Kernel",              url:"https://research.redhat.com/blog/publication/the-ebpf-runtime-in-the-linux-kernel/", cats:["cat_linux","cat_perf"], tags:["eBPF","runtime"]},
-  {id:"r32", title:"Bringing Packet Queueing to XDP",                  url:"https://research.redhat.com/blog/publication/bringing-packet-queueing-to-xdp/", cats:["cat_linux","cat_net"], tags:["XDP","queue"]},
-  {id:"r33", title:"xdp-tools (GitHub)",                                url:"https://github.com/xdp-project/xdp-tools", cats:["cat_linux","cat_net"], tags:["XDP","tools"]},
-  {id:"r34", title:"Finding a Hidden Memory Leak with the Linux Kernel",url:"https://www.linkedin.com/posts/austin-kim-638214147_finding-a-hidden-memory-leak-with-the-linux-ugcPost-7493669069909282816-r02s/", cats:["cat_linux","cat_perf"], tags:["memory","leak","debug"]},
-  {id:"r35", title:"Kernel Threads & Embedded Systems",                 url:"https://www.linkedin.com/posts/gopal-chakraborty-b6a7b91b_kernel-threads-embedded-share-7494608095684247552-KsN5/", cats:["cat_linux","cat_virt"], tags:["kernel","threads","embedded"]},
-  {id:"r36", title:"cacheext: Customizing and Tracing the Page Cache",  url:"https://www.linkedin.com/posts/martinkielski_cacheext-customizing-and-tracing-the-page-share-7494913096025784320-k2pM/", cats:["cat_linux","cat_perf"], tags:["page cache","tracing"]},
-  {id:"r37", title:"Long-Awaited Linux Kernel Announcement",            url:"https://www.linkedin.com/posts/rinhizakura_just-a-few-days-ago-a-long-awaited-announcement-share-7496239220966195200-CDQf/", cats:["cat_linux"], tags:["kernel","news"]},
-  {id:"r38", title:"KernelScript: Simplifying eBPF Development",        url:"https://arxiv.org/html/2607.23900v1", cats:["cat_linux","cat_perf"], tags:["eBPF","scripting"]},
-  // Performance
-  {id:"r39", title:"Brendan Gregg site",                                url:"https://www.brendangregg.com/overview.html", cats:["cat_perf"], tags:["Brendan Gregg"]},
-  {id:"r40", title:"Linux Performance - Brendan Gregg",                 url:"https://www.brendangregg.com/linuxperf.html", cats:["cat_perf","cat_linux"], tags:["linux","performance"]},
-  {id:"r41", title:"Brendan Gregg: Linux eBPF Tracing Tools",           url:"https://www.brendangregg.com/ebpf.html", cats:["cat_perf","cat_linux"], tags:["eBPF","tracing"]},
-  {id:"r42", title:"Brendan Gregg's Blog: Why I joined OpenAI",        url:"https://www.brendangregg.com/blog/2026-02-07/why-i-joined-openai.html", cats:["cat_perf","cat_ai"], tags:["Gregg","OpenAI"]},
-  {id:"r43", title:"When to Hire a Performance Engineering Team",       url:"https://www.brendangregg.com/blog/2025-08-04/when-to-hire-a-computer-performance-engineering-team-2025-part1.html", cats:["cat_perf"], tags:["performance","team"]},
-  {id:"r44", title:"Memory Profiling - Part 1 (Easyperf)",             url:"https://easyperf.net/blog/2024/02/12/Memory-Profiling-Part1", cats:["cat_perf"], tags:["memory","profiling"]},
-  {id:"r45", title:"What Every Programmer Should Know About Memory",    url:"https://people.freebsd.org/~lstewart/articles/cpumemory.pdf", cats:["cat_perf"], tags:["memory","CPU","cache"]},
-  {id:"r46", title:"Performance Analysis Superpowers with eBPF",        url:"https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021", cats:["cat_perf","cat_linux"], tags:["eBPF","performance"]},
-  {id:"r47", title:"Computer Architecture: Block I/O Optimization",    url:"https://medium.com/@kimth0312/computer-architecture-block-i-o-optimization-18a3f64458e1", cats:["cat_perf"], tags:["block I/O","architecture"]},
-  {id:"r48", title:"Linux Performance Tuning: Hardware Resources",     url:"https://rodrigolira.eti.br/linux-performance-tuning-recursos-de-hardware/", cats:["cat_perf"], tags:["performance","tuning","hardware"]},
-  {id:"r49", title:"LWN: Multi-Queue Block Layer (blk-mq)",            url:"https://lwn.net/Articles/608497/", cats:["cat_perf","cat_linux"], tags:["blk-mq","block"]},
-  {id:"r50", title:"The Hidden Cost of BPF Calls and Overhead",        url:"https://satyamnexus.substack.com/p/the-hidden-cost-of-bpf-calls-and", cats:["cat_perf","cat_linux"], tags:["BPF","overhead"]},
-  {id:"r51", title:"Efficient Continuous Latency Monitoring with eBPF",url:"https://research.redhat.com/blog/publication/efficient-continuous-latency-monitoring-with-ebpf/", cats:["cat_perf","cat_linux"], tags:["eBPF","latency"]},
-  {id:"r52", title:"Linux Performance & Systems Programming",           url:"https://www.linkedin.com/posts/shajeenahamed_linux-performance-systemsprogramming-share-7486099218567372804-O47p/", cats:["cat_perf"], tags:["performance","systems"]},
-  {id:"r53", title:"Most Performance Problems Come Down to Memory",     url:"https://www.linkedin.com/posts/fernando-franco-4696708_most-performance-problems-come-down-to-how-share-7488939809143427073-9VX3/", cats:["cat_perf"], tags:["performance","memory"]},
-  {id:"r54", title:"HedgeDB: Performance on Zen 5 Gen5 NVMe",         url:"https://fede-vaccaro.github.io/hedgedb.github.io/performance.html", cats:["cat_perf"], tags:["NVMe","benchmark"]},
-  {id:"r55", title:"Advanced Linux Disk I/O Monitoring Tools",         url:"https://pro.tecmint.com/blog/linux-disk-io-monitoring-tools/", cats:["cat_perf","cat_sysadmin"], tags:["disk","I/O","monitoring"]},
-  {id:"r56", title:"Essential Linux Performance Monitoring Tools",     url:"https://pro.tecmint.com/blog/linux-performance-monitoring-tools/", cats:["cat_perf","cat_sysadmin"], tags:["performance","monitoring"]},
-  {id:"r57", title:"Network Performance Tuning by Red Hat (PDF)",      url:"https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf", cats:["cat_perf","cat_net"], tags:["network","tuning"]},
-  {id:"r58", title:"Don't Stall Me Now: Hiding Memory Latency",        url:"https://www.linkedin.com/posts/martinkielski_dont-stall-me-now-hiding-memory-latency-share-7493443990529384448-pFIT/", cats:["cat_perf"], tags:["memory","latency"]},
-  {id:"r59", title:"Mellanox CQE Compression: 100GbE Collapse",        url:"https://haryachyy.wordpress.com/2026/08/10/mellanox-cqe-compression-why-mixed-traffic-collapses-100-gbe-receive/", cats:["cat_perf","cat_net"], tags:["Mellanox","100GbE"]},
-  {id:"r60", title:"Multikernel vs KVM: lmbench Benchmarks",           url:"https://multikernel.io/2026/08/16/multikernel-vs-kvm-lmbench/", cats:["cat_perf","cat_virt"], tags:["KVM","benchmark"]},
-  // Networking
-  {id:"r61", title:"15 Useful ifconfig Commands",                       url:"https://www.tecmint.com/ifconfig-command-examples/", cats:["cat_net","cat_sysadmin"], tags:["ifconfig","commands"]},
-  {id:"r62", title:"Network Troubleshooting Guide",                     url:"https://www.google.com/search?q=network+troubleshooting+guide", cats:["cat_net","cat_sysadmin"], tags:["troubleshooting"]},
-  {id:"r63", title:"iPerf3 & 10GbE Networking",                        url:"https://x.com/stijnnoorman/status/2023766794092044340?s=46", cats:["cat_net"], tags:["iperf3","10GbE"]},
-  {id:"r64", title:"RFC 7432: BGP MPLS-Based Ethernet VPN (EVPN)",     url:"https://datatracker.ietf.org/doc/html/rfc7432", cats:["cat_net"], tags:["BGP","EVPN","RFC"]},
-  {id:"r65", title:"VXLAN & BGP EVPN (Vincent Bernat)",                url:"https://vincent.bernat.ch/en/blog/2017-vxlan-bgp-evpn", cats:["cat_net"], tags:["VXLAN","BGP","EVPN"]},
-  {id:"r66", title:"L3 EVPN using FRR and Linux VXLANs",              url:"https://fedepaol.github.io/blog/2024/05/09/l3evpn-using-frr-and-linux-vxlans/", cats:["cat_net"], tags:["EVPN","FRR","VXLAN"]},
-  {id:"r67", title:"EVPN to the Host (DENOG10 Slides)",                url:"https://www.denog.de/media/DENOG10/day2_1100_EVPN-to-the-host.pdf", cats:["cat_net"], tags:["EVPN","datacenter"]},
-  {id:"r68", title:"Boosting Speed: eBPF and netstacklat Latency",     url:"https://developers.redhat.com/articles/2026/04/29/boosting-speed-use-ebpf-and-netstacklat-troubleshoot-latency", cats:["cat_net","cat_perf"], tags:["eBPF","latency"]},
-  {id:"r69", title:"Using eBPF in Red Hat Products",                   url:"https://developers.redhat.com/articles/2026/05/06/using-ebpf-red-hat-products", cats:["cat_net","cat_perf"], tags:["eBPF","Red Hat"]},
-  {id:"r70", title:"eBPF: Attribute Packet Drops to Netfilter Rules",  url:"https://developers.redhat.com/articles/2025/11/03/using-ebpf-attribute-packet-drops-netfilter-rules", cats:["cat_net","cat_perf"], tags:["eBPF","netfilter"]},
-  {id:"r71", title:"NetworkManager Supports IPv6 (Mostly)",            url:"https://developers.redhat.com/articles/2026/07/08/networkmanager-supports-ipv6-mostlye", cats:["cat_net"], tags:["NetworkManager","IPv6"]},
-  {id:"r72", title:"VPP and EVPN: VXLAN Part 1",                      url:"https://ipng.ch/s/articles/2025/07/12/vpp-and-evpn/vxlan-part-1/", cats:["cat_net"], tags:["VPP","EVPN","VXLAN"]},
-  {id:"r73", title:"VPP and EVPN: VXLAN Part 2",                      url:"https://ipng.ch/s/articles/2026/06/06/vpp-and-evpn/vxlan-part-2/", cats:["cat_net"], tags:["VPP","EVPN","VXLAN"]},
-  {id:"r74", title:"VPP and EVPN: VXLAN Part 3",                      url:"https://ipng.ch/s/articles/2026/06/13/vpp-and-evpn/vxlan-part-3/", cats:["cat_net"], tags:["VPP","EVPN","VXLAN"]},
-  {id:"r75", title:"VPP and EVPN: VXLAN Part 4",                      url:"https://ipng.ch/s/articles/2026/06/20/vpp-and-evpn/vxlan-part-4/", cats:["cat_net"], tags:["VPP","EVPN","VXLAN"]},
-  {id:"r76", title:"KNOD: Network Offload for AMD GPUs",              url:"https://www.phoronix.com/news/KNOD-Network-Offload-AMD-GPUs", cats:["cat_net"], tags:["offload","AMD","GPU"]},
-  {id:"r77", title:"FD.io VPP Whitepaper (PDF, 2017)",                url:"https://fd.io/docs/whitepapers/FDioVPPwhitepaperJuly2017.pdf", cats:["cat_net"], tags:["VPP","FD.io"]},
-  {id:"r78", title:"Linux Network Stack (Zenodo, PDF)",                url:"https://zenodo.org/records/21838429?preview_file=Linux+Network+Stack+-+EN.pdf", cats:["cat_net","cat_linux"], tags:["network stack"]},
-  {id:"r79", title:"How Facebook Uses BGP in Its Data Centers",        url:"https://engineering.fb.com/2021/05/13/data-center-engineering/bgp/", cats:["cat_net","cat_sysdes"], tags:["BGP","Facebook"]},
-  {id:"r80", title:"ACM Paper: Network Systems Research",              url:"https://dl.acm.org/doi/epdf/10.1145/3789240.3829175", cats:["cat_net"], tags:["ACM","research"]},
-  {id:"r81", title:"ACM Paper: Systems Research",                      url:"https://dl.acm.org/doi/epdf/10.1145/3819062", cats:["cat_net","cat_sysdes"], tags:["ACM","systems"]},
-  {id:"r82", title:"Three VPP Datapaths for NVIDIA ConnectX & BlueField",url:"https://medium.com/fd-io-vpp/three-vpp-datapaths-for-nvidia-connectx-and-bluefield-309c0124019d", cats:["cat_net"], tags:["VPP","NVIDIA","ConnectX","BlueField"]},
-  // Virtualization
-  {id:"r83", title:"Making a micro Linux distro",                       url:"https://popovicu.com/posts/making-a-micro-linux-distro/", cats:["cat_virt","cat_linux"], tags:["micro distro"]},
-  {id:"r84", title:"Making a mini computer from scratch",               url:"https://popovicu.com/posts/making-a-mini-computer-from-scratch-with-raspberry-pi-and-linux/", cats:["cat_virt"], tags:["raspberry pi"]},
-  {id:"r85", title:'QEMU "Superpower": Boot without Install',          url:"https://www.linkedin.com/posts/upopovic_heres-a-qemu-superpower-for-running-linux-activity-7395302108255862784-dbxJ", cats:["cat_virt"], tags:["QEMU","boot"]},
-  {id:"r86", title:"Run Linux inside Linux (UML)",                      url:"https://www.linkedin.com/posts/upopovic_how-to-run-linux-inside-linux-without-vm-activity-7402547927656599552-LLT3", cats:["cat_virt","cat_linux"], tags:["UML","VM"]},
-  {id:"r87", title:"Polling vs Event-Driven",                           url:"https://www.linkedin.com/posts/upopovic_quick-linux-insight-no-need-to-write-loops-activity-7405775801532473344-hSHX", cats:["cat_virt","cat_linux"], tags:["polling","event-driven"]},
-  {id:"r88", title:"The /proc filesystem explained",                    url:"https://www.linkedin.com/posts/upopovic_quick-linux-insight-tools-like-top-ps-activity-7403657027979522048-JsxT", cats:["cat_virt","cat_linux"], tags:["proc","filesystem"]},
-  {id:"r89", title:"Stop downloading 4GB ISOs",                        url:"https://www.linkedin.com/posts/upopovic_stop-downloading-4gb-isos-to-create-linux-activity-7398931197797675009-dJXI", cats:["cat_virt"], tags:["ISO","tip"]},
-  {id:"r90", title:"VM Networking without Networking",                  url:"https://www.linkedin.com/posts/upopovic_you-dont-necessarily-need-networking-to-activity-7399691698139869184-lrOF", cats:["cat_virt","cat_net"], tags:["VM","networking"]},
-  {id:"r91", title:"LFS: Linux From Scratch",                          url:"https://www.michaelamendy.com/blog/lfs-linux-from-scratch", cats:["cat_virt","cat_linux"], tags:["LFS","scratch"]},
-  {id:"r92", title:"Bootstrapping Alpine with apk-static",             url:"https://lfg.popovicu.com/series/from-zero-to-root/bootstrapping-alpine-with-apk-static/", cats:["cat_virt"], tags:["Alpine","bootstrap"]},
-  {id:"r93", title:"edgenos: Educational Microkernel/OS (GitHub)",     url:"https://github.com/wrightca1/edgenos", cats:["cat_virt","cat_linux"], tags:["microkernel","OS"]},
-  {id:"r94", title:"Unikraft: 1 Million VMs on a Single Box",          url:"https://unikraft.com/blog/1m-vms-single-box", cats:["cat_virt"], tags:["unikernel","VMs"]},
-  {id:"r95", title:"QEMU/KVM Virtualization (YouTube)",                url:"https://m.youtube.com/watch?v=gkori8blA0k", cats:["cat_virt"], tags:["QEMU","KVM"]},
-  {id:"r96", title:"StarFive VisionFive 2 (RISC-V SBC)",              url:"https://www.google.com/search?q=StarFive+VisionFive+2", cats:["cat_virt"], tags:["RISC-V","SBC"]},
-  {id:"r97", title:"QEMU Live Migration (GitHub)",                     url:"https://github.com/dedekind/dedekind-share/blob/master/2026/qemu-live-migration.md", cats:["cat_virt"], tags:["QEMU","migration"]},
-  {id:"r98", title:"Weka SBR Config (GitHub)",                         url:"https://github.com/WekaJosh/SBR-Config", cats:["cat_virt"], tags:["Weka","SBR"]},
-  {id:"r99", title:"Zenodo: Systems Research Paper",                   url:"https://zenodo.org/records/21809175", cats:["cat_virt","cat_sysdes"], tags:["systems","research"]},
-  // System Design
-  {id:"r100",title:"The Log: Real-time data's unifying abstraction",   url:"https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying", cats:["cat_sysdes"], tags:["log","distributed"]},
-  {id:"r101",title:"How Apache Kafka Works",                           url:"https://www.google.com/search?q=apache+kafka+works", cats:["cat_sysdes"], tags:["Kafka","messaging"]},
-  {id:"r102",title:"Kafka is not a Queue",                             url:"https://www.linkedin.com/posts/sukhad007_kafka-is-not-a-queue-its-a-commit-log-disguised-activity-7390789286918291457-caA4", cats:["cat_sysdes"], tags:["Kafka","commit log"]},
-  {id:"r103",title:"10 Latency Facts Every Engineer Should Know",      url:"https://www.linkedin.com/posts/sukhad007_10-latency-facts-every-engineer-should-know-activity-7391156241256873985-1xXc", cats:["cat_sysdes","cat_perf"], tags:["latency","engineering"]},
-  {id:"r104",title:"The Impact of Latency on User Behavior",          url:"https://www.linkedin.com/posts/sukhad007_lex-freidmans-podcast-with-pavel-durov-activity-7387937125322809344-e8Po", cats:["cat_sysdes","cat_perf"], tags:["latency","UX"]},
-  {id:"r105",title:"Synchronizing server clocks to 10 ns",            url:"https://www.linkedin.com/posts/urs-h%C3%B6lz_le_challenge-synchronize-the-local-clocks-of-activity-7387110594715348992-wFYY", cats:["cat_sysdes"], tags:["NTP","PTP","clock"]},
-  {id:"r106",title:"21 Lessons from 14 Years at Google",              url:"https://www.oreilly.com/radar/21-lessons-from-14-years-at-google/", cats:["cat_sysdes"], tags:["Google","lessons"]},
-  {id:"r107",title:"Computational Storage & Subsystem Local Memory",  url:"https://x.com/e_opore/status/2016132379744559142?s=46", cats:["cat_sysdes"], tags:["storage","memory"]},
-  {id:"r108",title:"Mutexes work... until they don't",                url:"https://www.linkedin.com/posts/activity-7432857415970250752-rp4Q", cats:["cat_sysdes","cat_linux"], tags:["mutex","concurrency"]},
-  {id:"r109",title:"Behavior vs Data Concurrency Protection",         url:"https://sqglobe.com/2025/08/17/behavior-vs-data-concurrency-protection/", cats:["cat_sysdes"], tags:["concurrency","pattern"]},
-  {id:"r110",title:"Lustre Query Periodic Offline",                   url:"https://www.linkedin.com/posts/koyamaso_our-paper-lustre-query-periodic-offline-share-7471826004139855872-IAvR/", cats:["cat_sysdes"], tags:["Lustre","distributed"]},
-  {id:"r111",title:"On Building Scalable Control Planes",             url:"https://www.allthingsdistributed.com/2026/08/on-building-scalable-control-planes.html", cats:["cat_sysdes"], tags:["control plane","scalability"]},
-  {id:"r112",title:"CMU: Morsel-Driven Parallelism in DB Query",      url:"https://15721.courses.cs.cmu.edu/spring2016/papers/p743-leis.pdf", cats:["cat_sysdes","cat_algo"], tags:["database","parallel"]},
-  // Algorithms
-  {id:"r113",title:"Shortest Path: Dijkstra (Interactive)",           url:"https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-dijkstra/index_en.html", cats:["cat_algo"], tags:["Dijkstra","shortest path"]},
-  {id:"r114",title:"Shortest Path: A* (Interactive)",                 url:"https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-a-star/index_en.html", cats:["cat_algo"], tags:["A*","pathfinding"]},
-  {id:"r115",title:"Testing A-Star Algorithm",                        url:"https://www.researchgate.net/figure/Testing-A-Star-algorithm-on-graph_fig5_348997309", cats:["cat_algo"], tags:["A*","research"]},
-  {id:"r116",title:"BM25 Retrieval Method",                           url:"https://www.linkedin.com/posts/lanchuhuong_remember-our-good-friend-bm25-that-empowers-activity-7389626664667889666-OGzF", cats:["cat_algo","cat_ai"], tags:["BM25","search"]},
-  {id:"r117",title:"Group Theory & Quantum Algorithms",               url:"https://www.ibm.com/quantum/blog/group-theory", cats:["cat_algo","cat_ai"], tags:["quantum","IBM"]},
-  {id:"r118",title:"30 Blogs to Learn 30 System Design Concepts",     url:"https://x.com/ashishps_1/status/2018540277695483961?s=46", cats:["cat_algo","cat_sysdes"], tags:["system design","learning"]},
-  {id:"r119",title:"How Can Anyone Say CS Is Boring?",                url:"https://www.linkedin.com/posts/laurie-kirk_how-can-anyone-say-cs-is-boring-when-we-literally-share-7493717898520244224-cbOp/", cats:["cat_algo"], tags:["CS","motivation"]},
-  // DevOps
-  {id:"r120",title:"Architecture as Code",                             url:"https://www.linkedin.com/posts/alexandre-zajac_softwarengineering-systemdesign-programming-activity-7386061174859190272-tKEz", cats:["cat_devops"], tags:["architecture","DevOps"]},
-  {id:"r121",title:"Import network routes to OpenShift via BGP",       url:"https://developers.redhat.com/articles/2025/10/21/how-import-provider-network-routes-openshift-bgp", cats:["cat_devops","cat_net"], tags:["OpenShift","BGP"]},
-  {id:"r122",title:"OpenShift & Kubernetes Ecosystem",                url:"https://www.linkedin.com/posts/anapedra_openshift-kubernetes-devops-activity-7417475817154277376-eeIa", cats:["cat_devops"], tags:["OpenShift","Kubernetes"]},
-  {id:"r123",title:"Linux Plumbers Conference 2026 – Abstracts",      url:"https://lpc.events/event/20/abstracts/", cats:["cat_devops","cat_linux"], tags:["LPC","conference"]},
-  // SysAdmin
-  {id:"r124",title:"How to Find Most Used Disk Space Directories",    url:"https://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/", cats:["cat_sysadmin"], tags:["disk space","du"]},
-  {id:"r125",title:"Find Process Listening on a Particular Port",      url:"https://www.tecmint.com/find-out-which-process-listening-on-a-particular-port/", cats:["cat_sysadmin"], tags:["netstat","port"]},
-  {id:"r126",title:"nmon for Linux and tools update",                 url:"https://www.google.com/search?q=nmon+linux+tools", cats:["cat_sysadmin","cat_perf"], tags:["nmon","monitoring"]},
-  {id:"r127",title:"Linux Sysadmin Insights (Popovicu)",              url:"https://x.com/popovicu94/status/2029798826404631010", cats:["cat_sysadmin","cat_linux"], tags:["sysadmin","tips"]},
-  {id:"r128",title:"fsck: Repair File System Errors in Linux",        url:"https://www.tecmint.com/fsck-repair-file-system-errors-in-linux/", cats:["cat_sysadmin","cat_linux"], tags:["fsck","filesystem"]},
-  {id:"r129",title:"mktemp: Create Secure Temporary Files",           url:"https://www.tecmint.com/mktemp-create-secure-temporary-files-linux/", cats:["cat_sysadmin"], tags:["mktemp","temp files"]},
-  {id:"r130",title:"Nushell: A Better Shell for Files & JSON",        url:"https://www.tecmint.com/nushell-a-better-shell-for-files-processes-and-json/", cats:["cat_sysadmin"], tags:["nushell","shell"]},
-  {id:"r131",title:"Sysstat: mpstat, pidstat, iostat, sar",           url:"https://www.tecmint.com/sysstat-commands-linux-mpstat-pidstat-iostat-sar/", cats:["cat_sysadmin","cat_perf"], tags:["sysstat","iostat","sar"]},
-  {id:"r132",title:"How to Copy Large Files Faster in Linux",         url:"https://www.tecmint.com/copy-large-files-faster-linux/", cats:["cat_sysadmin"], tags:["file copy","rsync"]},
-  {id:"r133",title:"hister: Search Local Files in Linux",             url:"https://www.tecmint.com/hister-search-local-files-linux/", cats:["cat_sysadmin"], tags:["file search"]},
-  {id:"r134",title:"Linux SysAdmin Tools (YouTube)",                  url:"https://m.youtube.com/watch?v=D_ulAJmYTUo", cats:["cat_sysadmin"], tags:["sysadmin","tools"]},
-  {id:"r135",title:"Find Process Using Bandwidth in Linux",           url:"https://www.tecmint.com/find-process-using-bandwidth-linux/", cats:["cat_sysadmin","cat_net"], tags:["bandwidth","process"]},
-  {id:"r136",title:"AWK Troubleshooters Guide",                       url:"https://www.troubleshooters.com/codecorn/awk/index.htm", cats:["cat_sysadmin"], tags:["AWK","scripting"]},
-  // AI
-  {id:"r137",title:"High-Performance Matrix Multiply in CUDA",        url:"https://developer.nvidia.com/blog/how-to-write-high-performance-matrix-multiply-in-nvidia-cuda-tile/", cats:["cat_ai"], tags:["CUDA","matrix","GPU"]},
-  {id:"r138",title:"MatMul Deep Dive",                                url:"https://aleksagordic.com/blog/matmul", cats:["cat_ai"], tags:["matrix multiply"]},
-  {id:"r139",title:"CUDA Tile IR",                                    url:"https://www.linkedin.com/posts/sanjoydas_today-was-a-big-milestone-for-us-we-launched-activity-7402591654643490817-PUNq", cats:["cat_ai"], tags:["CUDA","Tile IR"]},
-  {id:"r140",title:"IBM Storage Scale MCP Server",                    url:"https://www.linkedin.com/posts/sasikeda_github-ibmibm-storage-scale-mcp-server-activity-7422173696628252673-vbXG", cats:["cat_ai","cat_devops"], tags:["IBM","storage","MCP"]},
-  {id:"r141",title:"Stanford AI & ML Cheatsheets",                   url:"https://www.linkedin.com/posts/andreashorn1_stanford-university-%F0%9D%97%BF%F0%9D%97%B2%F0%9D%97%B9%F0%9D%97%B2%F0%9D%97%AE%F0%9D%98%80%F0%9D%97%B2%F0%9D%97%B1-%F0%9D%97%BC%F0%9D%97%B3-activity-7393190564092968960-VifK", cats:["cat_ai"], tags:["Stanford","ML"]},
-  {id:"r142",title:"MIT CS & GenAI",                                  url:"https://www.linkedin.com/posts/eordax_ai-computerscience-mit-activity-7408057467324153856-XWJU", cats:["cat_ai"], tags:["MIT","GenAI"]},
-  {id:"r143",title:"CUDA to MLX: K-Search (Berkeley AI)",            url:"https://bair.berkeley.edu/blog/2026/07/29/cuda-to-mlx-k-search/", cats:["cat_ai"], tags:["CUDA","MLX","Berkeley"]},
-  {id:"r144",title:"IBM Spectrum Scale and IBM ESS Network Guide (Redbook)", url:"https://www.redbooks.ibm.com/abstracts/redp5484.html", cats:["cat_net","cat_sysdes"], tags:["IBM","Spectrum Scale","storage","networking","HPC"]},
-  {id:"r145",title:"Spectrum Scale Network Topics (SSUG NYC 2024, PDF)",     url:"https://www.spectrumscaleug.org/wp-content/uploads/2025/04/SSUG24NYC11-Storage-Scale-Network-Topics-NYC.pdf", cats:["cat_net","cat_sysdes"], tags:["IBM","Spectrum Scale","storage","networking","RDMA","HPC"]},
-  {id:"r146",title:"Creating a Performance-Focused Kernel (Reddit/Gentoo)",  url:"https://www.reddit.com/r/Gentoo/comments/1ejp5yj/creating_a_performancefocused_kernel/", cats:["cat_linux","cat_perf"], tags:["kernel","performance","Gentoo","tuning","custom kernel"]},
-  {id:"r147",title:"RoundTable Space – X post",                               url:"https://x.com/roundtablespace/status/2092609257338200469?s=46", cats:["cat_linux"], tags:["kernel","news"]},
-  {id:"r148",title:"Linux Kernel Commit 4e69c185 (googlesource)",             url:"https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git/%2B/4e69c1856bfd9ffb7e9d335a25842fa211628929", cats:["cat_linux"], tags:["kernel","commit"]},
-  {id:"r149",title:"Linux Kernel Panic (blog.marvinpascale.it)",              url:"https://blog.marvinpascale.it/posts/2026/linux-kernel-panic/", cats:["cat_linux"], tags:["kernel","panic","debug"]},
-  {id:"r150",title:"dmesg Commands (Tecmint)",                                url:"https://www.tecmint.com/dmesg-commands/", cats:["cat_linux","cat_sysadmin"], tags:["dmesg","commands","debug"]},
-  {id:"r151",title:"The eBPF Runtime in the Linux Kernel",                   url:"https://arxiv.org/pdf/2410.00026", cats:["cat_linux","cat_perf"], tags:["eBPF","runtime","kernel","arxiv"]},
-  {id:"r152",title:"Network Debugging with eBPF (Red Hat)",     url:"https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf#conclusion", cats:["cat_linux","cat_net","cat_perf"], tags:["eBPF","network","debug"]},
-  {id:"r153",title:"Breaking the Sorting Barrier for Directed Single-Source Shortest Paths", url:"https://arxiv.org/pdf/2504.17033", cats:["cat_algo"], tags:["shortest path","Dijkstra","graph","arxiv"]},
-  {id:"r154",title:"Sorting with GPUs: A Survey",                             url:"https://arxiv.org/pdf/1709.02520", cats:["cat_algo","cat_ai"], tags:["GPU","sorting","parallel","arxiv"]},
-  {id:"r155",title:"CAGRA: Highly Parallel Graph Construction and Approximate Nearest Neighbor Search for GPUs", url:"https://arxiv.org/abs/2308.15136", cats:["cat_algo","cat_ai"], tags:["GPU","ANN","graph","CUDA","arxiv"]},
-  {id:"r156",title:"High-Throughput Vector Similarity Search in Knowledge Graphs", url:"https://arxiv.org/pdf/2304.01926", cats:["cat_algo","cat_ai"], tags:["vector search","knowledge graph","arxiv"]},
-  {id:"r157",title:"HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm", url:"https://www.redisgate.jp/download/FlFuGaMe07.pdf", cats:["cat_algo"], tags:["HyperLogLog","cardinality","probabilistic","PDF"]},
-  {id:"r158",title:"Graph-Based Vector Search: An Experimental Evaluation of the State-of-the-Art", url:"https://arxiv.org/pdf/2502.05575", cats:["cat_algo","cat_ai"], tags:["vector search","graph","ANN","benchmark","arxiv"]},
-  // Books
-  {id:"b1",  title:"Systems Performance: Enterprise and the Cloud",    url:null,type:"book",cats:["cat_library","cat_perf"],author:"Brendan Gregg",tags:["performance","cloud"]},
-  {id:"b2",  title:"BPF Performance Tools",                            url:null,type:"book",cats:["cat_library","cat_perf","cat_linux"],author:"Brendan Gregg",tags:["BPF","tracing"]},
-  {id:"b3",  title:"Building Data Centers with VXLAN BGP EVPN",       url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["VXLAN","BGP","EVPN"]},
-  {id:"b4",  title:"Routing TCP/IP, Volume I",                         url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["routing","TCP/IP"]},
-  {id:"b5",  title:"Understanding the Linux Kernel",                   url:null,type:"book",cats:["cat_library","cat_linux"],author:"Bovet & Cesati",tags:["linux","kernel"]},
-  {id:"b6",  title:"Linux Kernel Development",                         url:null,type:"book",cats:["cat_library","cat_linux"],author:"Robert Love",tags:["linux","kernel"]},
-  {id:"b7",  title:"Mastering eBPF",                                   url:null,type:"book",cats:["cat_library","cat_linux","cat_perf"],author:"Wiliams D. Brown",tags:["eBPF","BPF"]},
-  {id:"b8",  title:"Designing Data-Intensive Applications",            url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Martin Kleppmann",tags:["data","distributed"]},
-  {id:"b9",  title:"Designing Distributed Systems",                    url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Brendan Burns",tags:["distributed systems"]},
-  {id:"b10", title:"Advanced Data Structures",                         url:null,type:"book",cats:["cat_library","cat_algo"],author:"Peter Brass",tags:["data structures"]},
-  {id:"b11", title:"Algoritmi e strutture dati",                       url:null,type:"book",cats:["cat_library","cat_algo"],author:"Demetrescu, Finocchi, Italiano",tags:["algoritmi"]},
-  {id:"b12", title:"Strutture di dati e algoritmi",                    url:null,type:"book",cats:["cat_library","cat_algo"],author:"Crescenzi et al.",tags:["strutture dati"]},
-  {id:"b13", title:"Differential Equations",                           url:null,type:"book",cats:["cat_library"],author:"Nate Ramer",tags:["math"]},
-  {id:"b14", title:"Amministrare GNU/Linux",                           url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Simone Piccardi",tags:["GNU/Linux"]},
-  {id:"b15", title:"bash Idioms",                                      url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Albing & Vossen",tags:["bash","shell"]},
-  {id:"b16", title:"Hands-on Go Programming",                          url:null,type:"book",cats:["cat_library"],author:"Singh & Singh",tags:["Go"]},
-  {id:"b17", title:"Ansible for DevOps",                               url:null,type:"book",cats:["cat_library","cat_devops"],author:"Jeff Geerling",tags:["Ansible","DevOps"]},
-];
+        <section id="algorithms">
+            <h2>Algorithms & CS Fundamentals</h2>
+            <ul>
+                <li><a href="https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-dijkstra/index_en.html" target="_blank" rel="noopener noreferrer">Shortest Path: Dijkstra (Interactive)</a></li>
+                <li><a href="https://algorithms.discrete.ma.tum.de/graph-algorithms/spp-a-star/index_en.html" target="_blank" rel="noopener noreferrer">Shortest Path: A* (Interactive)</a></li>
+                <li><a href="https://www.researchgate.net/figure/Testing-A-Star-algorithm-on-graph_fig5_348997309" target="_blank" rel="noopener noreferrer">Testing A-Star Algorithm</a></li>
+                <li><a href="https://www.linkedin.com/posts/lanchuhuong_remember-our-good-friend-bm25-that-empowers-activity-7389626664667889666-OGzF" target="_blank" rel="noopener noreferrer">BM25 Retrieval Method</a></li>
+                <li><a href="https://www.ibm.com/quantum/blog/group-theory" target="_blank" rel="noopener noreferrer">Group Theory & Quantum Algorithms</a></li>
+                <li><a href="https://x.com/ashishps_1/status/2018540277695483961?s=46" target="_blank" rel="noopener noreferrer">30 Blogs to Learn 30 System Design Concepts</a></li>
+                <li><a href="https://www.linkedin.com/posts/laurie-kirk_how-can-anyone-say-cs-is-boring-when-we-literally-share-7493717898520244224-cbOp/" target="_blank" rel="noopener noreferrer">How Can Anyone Say CS Is Boring?</a></li>
+            </ul>
+        </section>
 
-// ═══════════════════════════════ SHARED SETUP ════════════════════════════════
+        <section id="devops">
+            <h2>DevOps & Cloud</h2>
+            <ul>
+                <li><a href="https://www.linkedin.com/posts/alexandre-zajac_softwarengineering-systemdesign-programming-activity-7386061174859190272-tKEz" target="_blank" rel="noopener noreferrer">Architecture as Code</a></li>
+                <li><a href="https://developers.redhat.com/articles/2025/10/21/how-import-provider-network-routes-openshift-bgp" target="_blank" rel="noopener noreferrer">Import provider network routes to OpenShift via BGP</a></li>
+                <li><a href="https://www.linkedin.com/posts/anapedra_openshift-kubernetes-devops-activity-7417475817154277376-eeIa" target="_blank" rel="noopener noreferrer">OpenShift & Kubernetes Ecosystem</a></li>
+                <li><a href="https://lpc.events/event/20/abstracts/" target="_blank" rel="noopener noreferrer">Linux Plumbers Conference 2026 – Abstracts</a></li>
+            </ul>
+        </section>
 
-const catMap = {};
-CATEGORIES.forEach(c => { catMap[c.id] = c; });
+        <section id="sysadmin">
+            <h2>SysAdmin Tools & Troubleshooting</h2>
+            <ul>
+                <li><a href="https://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/" target="_blank" rel="noopener noreferrer">How to Find Most Used Disk Space Directories</a></li>
+                <li><a href="https://www.tecmint.com/find-out-which-process-listening-on-a-particular-port/" target="_blank" rel="noopener noreferrer">Find Out Which Process Listening on a Particular Port</a></li>
+                <li><a href="https://www.google.com/search?q=https://www.linkedin.com/posts/nigelargriffiths_nmon-for-linux-and-tools-update-i-found-activity-7429222691599101952-yGQQ/" target="_blank" rel="noopener noreferrer">nmon for Linux and tools update</a></li>
+                <li><a href="https://x.com/popovicu94/status/2029798826404631010" target="_blank" rel="noopener noreferrer">Linux Sysadmin Insights (Popovicu)</a></li>
+                <li><a href="https://www.tecmint.com/fsck-repair-file-system-errors-in-linux/" target="_blank" rel="noopener noreferrer">fsck: Repair File System Errors in Linux</a></li>
+                <li><a href="https://www.tecmint.com/mktemp-create-secure-temporary-files-linux/" target="_blank" rel="noopener noreferrer">mktemp: Create Secure Temporary Files</a></li>
+                <li><a href="https://www.tecmint.com/nushell-a-better-shell-for-files-processes-and-json/" target="_blank" rel="noopener noreferrer">Nushell: A Better Shell for Files, Processes, and JSON</a></li>
+                <li><a href="https://www.tecmint.com/sysstat-commands-linux-mpstat-pidstat-iostat-sar/" target="_blank" rel="noopener noreferrer">Sysstat Commands in Linux: mpstat, pidstat, iostat, sar</a></li>
+                <li><a href="https://www.tecmint.com/copy-large-files-faster-linux/" target="_blank" rel="noopener noreferrer">How to Copy Large Files Faster in Linux</a></li>
+                <li><a href="https://www.tecmint.com/hister-search-local-files-linux/" target="_blank" rel="noopener noreferrer">hister: Search Local Files in Linux (Tecmint)</a></li>
+                <li><a href="https://m.youtube.com/watch?v=D_ulAJmYTUo" target="_blank" rel="noopener noreferrer">Linux SysAdmin Tools (YouTube)</a></li>
+                <li><a href="https://www.tecmint.com/find-process-using-bandwidth-linux/" target="_blank" rel="noopener noreferrer">Find Process Using Bandwidth in Linux</a></li>
+                <li><a href="https://www.troubleshooters.com/codecorn/awk/index.htm" target="_blank" rel="noopener noreferrer">AWK Troubleshooters Guide</a></li>
+            </ul>
+        </section>
 
-// ═══════════════════════════════ VIEW SWITCH ═════════════════════════════════
+        <section id="ai">
+            <h2>AI, ML & CUDA</h2>
+            <ul>
+                <li><a href="https://developer.nvidia.com/blog/how-to-write-high-performance-matrix-multiply-in-nvidia-cuda-tile/" target="_blank" rel="noopener noreferrer">High-Performance Matrix Multiply in CUDA</a></li>
+                <li><a href="https://aleksagordic.com/blog/matmul" target="_blank" rel="noopener noreferrer">MatMul Deep Dive</a></li>
+                <li><a href="https://www.linkedin.com/posts/sanjoydas_today-was-a-big-milestone-for-us-we-launched-activity-7402591654643490817-PUNq" target="_blank" rel="noopener noreferrer">CUDA Tile IR</a></li>
+                <li><a href="https://www.linkedin.com/posts/sasikeda_github-ibmibm-storage-scale-mcp-server-activity-7422173696628252673-vbXG" target="_blank" rel="noopener noreferrer">IBM Storage Scale MCP Server</a></li>
+                <li><a href="https://www.linkedin.com/posts/andreashorn1_stanford-university-%F0%9D%97%BF%F0%9D%97%B2%F0%9D%97%B9%F0%9D%97%B2%F0%9D%97%AE%F0%9D%98%80%F0%9D%97%B2%F0%9D%97%B1-%F0%9D%97%BC%F0%9D%97%B3-activity-7393190564092968960-VifK" target="_blank" rel="noopener noreferrer">Stanford AI & ML Cheatsheets</a></li>
+                <li><a href="https://www.linkedin.com/posts/eordax_ai-computerscience-mit-activity-7408057467324153856-XWJU" target="_blank" rel="noopener noreferrer">MIT CS & GenAI</a></li>
+                <li><a href="https://bair.berkeley.edu/blog/2026/07/29/cuda-to-mlx-k-search/" target="_blank" rel="noopener noreferrer">CUDA to MLX: K-Search (Berkeley AI Research)</a></li>
+            </ul>
+        </section>
 
-let graphInitialized = false;
-let statsBuilt = false;
+        <section id="library">
+            <h2>My Library</h2>
+            <ul class="library-list">
+                <li><strong>Systems Performance: Enterprise and the Cloud</strong><span class="book-author">Brendan Gregg</span></li>
+                <li><strong>BPF Performance Tools</strong><span class="book-author">Brendan Gregg</span></li>                
+                <li><strong>Building Data Centers with VXLAN BGP EVPN: A Cisco NX-OS Perspective</strong><span class="book-author">Cisco</span></li>    
+                <li><strong>Routing TCP/IP, Volume I</strong><span class="book-author">Cisco</span></li>            
+                <li><strong>Understanding the Linux Kernel</strong><span class="book-author">Daniel P. Bovet, Marco Cesati</span></li>
+                <li><strong>Linux Kernel Development</strong><span class="book-author">Robert Love</span></li>
+                <li><strong>Mastering eBPF</strong><span class="book-author">Wiliams D. Brown</span></li>
+                <li><strong>Designing Data-Intensive Applications</strong><span class="book-author">Martin Kleppmann</span></li>
+                <li><strong>Designing Distributed Systems</strong><span class="book-author">Brendan Burns</span></li>
+                <li><strong>Advanced Data Structures</strong><span class="book-author">Peter Brass</span></li>
+                <li><strong>Algoritmi e strutture dati</strong><span class="book-author">Camil Demetrescu, Irene Finocchi, Giuseppe F. Italiano</span></li>
+                <li><strong>Strutture di dati e algoritmi</strong><span class="book-author">P. Crescenzi, G. Gambosi, R. Grossi, G. Rossi</span></li>
+                <li><strong>Differential Equations</strong><span class="book-author">Nate Ramer</span></li>
+                <li><strong>Amministrare GNU/Linux</strong><span class="book-author">Simone Piccardi</span></li>
+                <li><strong>bash Idioms</strong><span class="book-author">Carl Albing, JP Vossen</span></li>
+                <li><strong>Hands-on Go Programming</strong><span class="book-author">Sachidanand Singh, Prithvipal Singh</span></li>
+                <li><strong>Ansible for DevOps</strong><span class="book-author">Jeff Geerling</span></li>
+                <li><strong><a href="https://book-direct-download.lovable.app/" target="_blank" rel="noopener noreferrer">Book Direct Download</a></strong><span class="book-author">—</span></li>
+            </ul>
+        </section>
 
-function showView(v) {
-  ['list','graph','stats'].forEach(name => {
-    document.getElementById('view-'+name).classList.toggle('hidden', name!==v);
-    document.getElementById('view-'+name).classList.toggle('active', name===v);
-    document.getElementById('btn-'+name).classList.toggle('active', name===v);
-  });
-  // Hide search when switching away from list view
-  if (v !== 'list') {
-    const sw = document.getElementById('list-search-wrap');
-    sw.style.display = 'none';
-    document.getElementById('btn-search').classList.remove('active');
-  }
-  if (v==='graph' && !graphInitialized) { initGraph(); graphInitialized=true; }
-  if (v==='stats' && !statsBuilt)       { buildStats(); statsBuilt=true; }
-}
+        <footer>
+            <p>References and documentation indexed for study and sharing.</p>
+        </footer>
+    </main>
 
-function toggleSearch() {
-  // Only works in list view — if not in list view, switch first
-  const listView = document.getElementById('view-list');
-  if (listView.classList.contains('hidden')) {
-    showView('list');
-  }
-  const sw = document.getElementById('list-search-wrap');
-  const btn = document.getElementById('btn-search');
-  const isOpen = sw.style.display === 'block';
-  sw.style.display = isOpen ? 'none' : 'block';
-  btn.classList.toggle('active', !isOpen);
-  if (!isOpen) {
-    document.getElementById('list-search').focus();
-  }
-}
-
-// fix: list is default, not hidden
-document.getElementById('view-list').classList.remove('hidden');
-document.getElementById('view-list').classList.remove('active');
-
-// ════════════════════════════════ LIST VIEW ══════════════════════════════════
-
-function buildListView() {
-  // jump nav
-  const nav = document.getElementById('jump-nav');
-  CATEGORIES.forEach(cat => {
-    const n = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id).length;
-    if (!n) return;
-    const pill = document.createElement('button');
-    pill.className = 'jump-pill';
-    pill.innerHTML = `<span class="jp-dot" style="background:${cat.color}"></span>${cat.label} <span style="color:#94a3b8">${n}</span>`;
-    pill.onclick = () => {
-      const el = document.getElementById('sec-'+cat.id);
-      if (el) el.scrollIntoView({behavior:'smooth',block:'start'});
-    };
-    nav.appendChild(pill);
-  });
-
-  // sections
-  const container = document.getElementById('list-sections');
-  CATEGORIES.forEach(cat => {
-    const items = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id);
-    if (!items.length) return;
-    const sec = document.createElement('section');
-    sec.className = 'list-section-anchor';
-    sec.id = 'sec-'+cat.id;
-    sec.innerHTML = `<h3><span class="cat-badge" style="background:${cat.color}"></span>${cat.label}</h3>
-      <ul>${items.map(r=>`<li data-title="${r.title.toLowerCase()}" data-tags="${(r.tags||[]).join(' ').toLowerCase()}"><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a></li>`).join('')}</ul>`;
-    container.appendChild(sec);
-  });
-
-  // library
-  const libEl = document.getElementById('lib-list');
-  RESOURCES.filter(r=>r.type==='book').forEach(b=>{
-    const li = document.createElement('li');
-    li.innerHTML = `<strong>${b.title}</strong><span class="book-author">${b.author}</span>`;
-    libEl.appendChild(li);
-  });
-}
-
-buildListView();
-
-// search
-const listSearch = document.getElementById('list-search');
-const searchCount = document.getElementById('list-search-count');
-const noResults = document.getElementById('no-results');
-
-listSearch.addEventListener('input', () => {
-  const q = listSearch.value.trim().toLowerCase();
-  const allLi = document.querySelectorAll('#list-sections li[data-title]');
-  let visible = 0;
-  allLi.forEach(li => {
-    const match = !q || li.dataset.title.includes(q) || li.dataset.tags.includes(q);
-    li.classList.toggle('hidden-item', !match);
-    if (match) visible++;
-  });
-  // hide/show section headers
-  document.querySelectorAll('#list-sections section').forEach(sec => {
-    const anyVisible = [...sec.querySelectorAll('li[data-title]')].some(li=>!li.classList.contains('hidden-item'));
-    sec.style.display = anyVisible ? '' : 'none';
-  });
-  searchCount.textContent = q ? `${visible} result${visible!==1?'s':''}` : '';
-  noResults.style.display = (q && visible===0) ? 'block' : 'none';
-});
-listSearch.addEventListener('keydown', e => { if(e.key==='Escape') { listSearch.value=''; listSearch.dispatchEvent(new Event('input')); } });
-
-// ════════════════════════════════ STATS VIEW ═════════════════════════════════
-
-function buildStats() {
-  const links = RESOURCES.filter(r=>r.type!=='book');
-  const books = RESOURCES.filter(r=>r.type==='book');
-  const allTags = RESOURCES.flatMap(r=>r.tags||[]);
-  const tagFreq = {};
-  allTags.forEach(t=>{ tagFreq[t]=(tagFreq[t]||0)+1; });
-  const topTags = Object.entries(tagFreq).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  const multiCat = RESOURCES.filter(r=>r.type!=='book' && (r.cats||[]).length>=2);
-
-  // cards
-  const cards = document.getElementById('stats-cards');
-  [
-    {val:links.length,  lbl:'Total Links'},
-    {val:books.length,  lbl:'Books'},
-    {val:RESOURCES.length, lbl:'Total Resources'},
-    {val:multiCat.length, lbl:'Cross-Category'},
-  ].forEach(({val,lbl})=>{
-    const d=document.createElement('div'); d.className='stat-card';
-    d.innerHTML=`<div class="val">${val}</div><div class="lbl">${lbl}</div>`;
-    cards.appendChild(d);
-  });
-
-  // by category
-  const byCat = document.getElementById('stats-by-cat');
-  const catCounts = CATEGORIES.map(c=>({
-    cat:c,
-    count: RESOURCES.filter(r=>(r.cats||[]).includes(c.id)).length
-  })).sort((a,b)=>b.count-a.count);
-  const maxCat = catCounts[0].count;
-  catCounts.forEach(({cat,count})=>{
-    const row = document.createElement('div'); row.className='bar-row';
-    row.innerHTML=`<div class="bar-label"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cat.color};margin-right:5px;vertical-align:middle"></span>${cat.label}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(count/maxCat*100).toFixed(1)}%;background:${cat.color}88"></div></div>
-      <div class="bar-val">${count}</div>`;
-    byCat.appendChild(row);
-  });
-
-  // by tag
-  const byTag = document.getElementById('stats-by-tag');
-  const maxTag = topTags[0][1];
-  topTags.forEach(([tag,cnt])=>{
-    const row=document.createElement('div'); row.className='bar-row';
-    row.innerHTML=`<div class="bar-label">${tag}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(cnt/maxTag*100).toFixed(1)}%;background:#3b82f688"></div></div>
-      <div class="bar-val">${cnt}</div>`;
-    byTag.appendChild(row);
-  });
-
-  // multi-category
-  const multiEl = document.getElementById('stats-multi');
-  multiCat.sort((a,b)=>b.cats.length-a.cats.length).forEach(r=>{
-    const item=document.createElement('div'); item.className='multi-item';
-    const catPills = r.cats.map(cid=>{
-      const c=catMap[cid];
-      return c?`<span class="multi-cat-pill" style="background:${c.color}">${c.label}</span>`:'';
-    }).join('');
-    item.innerHTML=`<div><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a><div class="multi-cats">${catPills}</div></div>`;
-    multiEl.appendChild(item);
-  });
-}
-
-
-// ════════════════════════════════ GRAPH VIEW ═════════════════════════════════
-
-function initGraph() {
-  const container = document.getElementById('view-graph');
-  const W = container.clientWidth, H = container.clientHeight;
-
-  // ── build nodes + links ──────────────────────────────────────────────────
-  const gNodes = [], gLinks = [];
-  CATEGORIES.forEach(c => gNodes.push({id:c.id,label:c.label,color:c.color,type:"category"}));
-  RESOURCES.forEach(r => {
-    const mc = r.cats&&r.cats[0];
-    const color = (mc&&catMap[mc]) ? catMap[mc].color : "#64748b";
-    gNodes.push({id:r.id,title:r.title,url:r.url,type:r.type==="book"?"book":"resource",
-      color:r.type==="book"?"#64748b":color,cats:r.cats||[],tags:r.tags||[],author:r.author||null});
-    (r.cats||[]).forEach(cid => gLinks.push({source:cid,target:r.id}));
-  });
-
-  // ── cluster centres (categories arranged in a circle) ───────────────────
-  const N_CATS = CATEGORIES.length;
-  const clusterR = Math.min(W,H)*0.28;
-  const clusterCx = {}, clusterCy = {};
-  CATEGORIES.forEach((c,i) => {
-    const angle = (i/N_CATS)*2*Math.PI - Math.PI/2;
-    clusterCx[c.id] = W/2 + clusterR*Math.cos(angle);
-    clusterCy[c.id] = H/2 + clusterR*Math.sin(angle);
-  });
-
-  // ── SVG + defs ───────────────────────────────────────────────────────────
-  const svg = d3.select("#graph-svg").attr("width",W).attr("height",H);
-  const defs = svg.append("defs");
-  const addFilter = (id,std) => {
-    const f=defs.append("filter").attr("id",id).attr("x","-60%").attr("y","-60%").attr("width","220%").attr("height","220%");
-    f.append("feGaussianBlur").attr("stdDeviation",std).attr("result","b");
-    const m=f.append("feMerge"); m.append("feMergeNode").attr("in","b"); m.append("feMergeNode").attr("in","SourceGraphic");
-  };
-  addFilter("gg",4); addFilter("ggs",9);
-
-  const zoomB = d3.zoom().scaleExtent([0.05,7]).on("zoom", e => {
-    g.attr("transform",e.transform);
-    updateLabelsVisibility(e.transform.k);
-    updateMinimapViewport(e.transform);
-  });
-  svg.call(zoomB);
-  const g = svg.append("g");
-
-  // ── simulation ───────────────────────────────────────────────────────────
-  const sim = d3.forceSimulation(gNodes)
-    .force("link", d3.forceLink(gLinks).id(d=>d.id).distance(d=>d.source.type==="category"?110:60).strength(0.45))
-    .force("charge", d3.forceManyBody().strength(d=>d.type==="category"?-1000:-75))
-    .force("center", d3.forceCenter(W/2,H/2))
-    .force("collision", d3.forceCollide().radius(d=>d.type==="category"?38:15))
-    // cluster forces — per-node, applied via custom force
-    .force("clusterX", d3.forceX(d => {
-      const primaryCat = d.type==="category" ? d.id : (d.cats&&d.cats[0]);
-      return primaryCat&&clusterCx[primaryCat] ? clusterCx[primaryCat] : W/2;
-    }).strength(d=>d.type==="category"?0.15:0.06))
-    .force("clusterY", d3.forceY(d => {
-      const primaryCat = d.type==="category" ? d.id : (d.cats&&d.cats[0]);
-      return primaryCat&&clusterCy[primaryCat] ? clusterCy[primaryCat] : H/2;
-    }).strength(d=>d.type==="category"?0.15:0.06))
-    .alphaDecay(0.013).velocityDecay(0.42);
-
-  // ── links ────────────────────────────────────────────────────────────────
-  const linkSel = g.append("g")
-    .selectAll("line").data(gLinks).join("line")
-    .attr("class","g-link")
-    .attr("stroke", d => {
-      const src = typeof d.source==="object"?d.source:gNodes.find(n=>n.id===d.source);
-      return src?.color ? src.color+"55" : "#cbd5e1";
-    });
-
-  // ── node groups ──────────────────────────────────────────────────────────
-  const nodeSel = g.append("g")
-    .selectAll("g").data(gNodes).join("g").attr("class","g-node")
-    .call(d3.drag()
-      .on("start",(e,d)=>{ if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
-      .on("drag", (e,d)=>{ d.fx=e.x; d.fy=e.y; })
-      .on("end",  (e,d)=>{ if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
-
-  // circles
-  nodeSel.append("circle")
-    .attr("r", d=>d.type==="category"?22:d.type==="book"?7:5.5)
-    .attr("fill", d=>{ if(d.type==="category") return d.color+"22"; if(d.type==="book") return d.color+"dd"; return d.color+"ee"; })
-    .attr("stroke", d=>d.color)
-    .attr("stroke-width", d=>d.type==="category"?2.5:1.5)
-    .style("filter", d=>d.type==="category"?"url(#gg)":"none");
-
-  // inner dot for category
-  nodeSel.filter(d=>d.type==="category")
-    .append("circle").attr("r",7).attr("fill",d=>d.color).attr("stroke","none").style("filter","url(#gg)");
-
-  // category labels (always visible)
-  nodeSel.filter(d=>d.type==="category")
-    .append("text").attr("class","g-node-label cat").attr("dy",34).text(d=>d.label);
-
-  // resource labels (zoom-aware — hidden group, toggled by zoom)
-  const resLabelGroup = g.append("g").attr("id","res-labels").style("opacity",0).style("pointer-events","none");
-  // populated after simulation stabilises
-  const ZOOM_LABEL_THRESHOLD = 1.8;
-  let resLabelNodes = [];
-
-  function buildResLabels() {
-    resLabelGroup.selectAll("*").remove();
-    resLabelNodes = gNodes.filter(n=>n.type==="resource"||n.type==="book");
-    resLabelGroup.selectAll("text").data(resLabelNodes).join("text")
-      .attr("class","g-node-label")
-      .attr("x", d=>d.x||0).attr("y", d=>(d.y||0)+11)
-      .attr("text-anchor","middle")
-      .text(d=>d.title.length>26 ? d.title.slice(0,24)+"…" : d.title);
-  }
-
-  function updateResLabelPositions() {
-    resLabelGroup.selectAll("text").data(resLabelNodes)
-      .attr("x", d=>d.x||0).attr("y", d=>(d.y||0)+11);
-  }
-
-  function updateLabelsVisibility(k) {
-    resLabelGroup.style("opacity", k>=ZOOM_LABEL_THRESHOLD ? 1 : 0);
-  }
-
-  // ── tooltip ──────────────────────────────────────────────────────────────
-  const tip = d3.select("#g-tooltip");
-  let activeTagFilter = null;
-
-  function applyTagFilter(tag) {
-    activeTagFilter = tag;
-    document.getElementById("g-tf-label").textContent = "#"+tag;
-    document.getElementById("g-tag-filter").classList.add("on");
-    document.getElementById("g-breadcrumb").classList.remove("on");
-    focusCat = null;
-    const matchIds = new Set(gNodes.filter(n=>(n.tags||[]).includes(tag)).map(n=>n.id));
-    nodeSel.classed("dimmed", n=>!matchIds.has(n.id)&&n.type!=="category");
-    linkSel.classed("dimmed", l=>!matchIds.has(l.source.id)&&!matchIds.has(l.target.id))
-            .classed("highlighted",false)
-            .attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
-  }
-
-  document.getElementById("g-tf-clear").addEventListener("click",()=>{
-    activeTagFilter=null;
-    document.getElementById("g-tag-filter").classList.remove("on");
-    nodeSel.classed("dimmed",false);
-    linkSel.classed("dimmed",false).attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
-  });
-
-  nodeSel
-    .on("mouseover", function(event,d) {
-      if(d.type==="category"){ d3.select(this).select("circle").style("filter","url(#ggs)"); return; }
-      const catPills=(d.cats||[]).map(cid=>{ const c=catMap[cid]; return c?`<span class="tt-pill">${c.label}</span>`:""; }).join("");
-      const tagPills=(d.tags||[]).map(t=>`<span class="tt-tag" onclick="window._tagClick('${t}')">#${t}</span>`).join("");
-      tip.html(`
-        <div class="tt-title">${d.title}</div>
-        <div>${catPills}</div>
-        ${d.author?`<div class="tt-divider"></div><div class="tt-row">✍️ Author: <span>${d.author}</span></div>`:""}
-        ${tagPills?`<div class="tt-divider"></div><div>${tagPills}</div>`:""}
-        <div class="tt-divider"></div>
-        ${d.url?`<div class="tt-hint">↗ Click node to open</div>`:`<div class="tt-book">📚 Book — no URL</div>`}
-      `).classed("on",true)
-        .style("left",(Math.min(event.clientX+16,window.innerWidth-310))+"px")
-        .style("top", (Math.min(event.clientY-8,window.innerHeight-210))+"px");
-      const conn=new Set();
-      gLinks.forEach(l=>{ const s=l.source.id||l.source,t=l.target.id||l.target; if(s===d.id) conn.add(t); if(t===d.id) conn.add(s); });
-      if(!activeTagFilter) {
-        nodeSel.classed("dimmed",n=>n.id!==d.id&&!conn.has(n.id));
-        linkSel.classed("dimmed",l=>l.source.id!==d.id&&l.target.id!==d.id)
-                .classed("highlighted",l=>l.source.id===d.id||l.target.id===d.id)
-                .attr("stroke",l=>{ if(l.source.id===d.id||l.target.id===d.id) return d.color; return l.source.color?l.source.color+"22":"#e2e8f0"; });
-      }
-      d3.select(this).select("circle:first-child").attr("r",d.type==="book"?10:9).style("filter","url(#ggs)");
-    })
-    .on("mousemove", function(event) {
-      tip.style("left",(Math.min(event.clientX+16,window.innerWidth-310))+"px")
-         .style("top", (Math.min(event.clientY-8,window.innerHeight-210))+"px");
-    })
-    .on("mouseout", function(event,d) {
-      tip.classed("on",false);
-      if(d.type==="category"){ d3.select(this).select("circle").style("filter","url(#gg)"); return; }
-      if(!activeTagFilter) {
-        nodeSel.classed("dimmed",false);
-        linkSel.classed("dimmed",false).classed("highlighted",false)
-                .attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
-      }
-      d3.select(this).select("circle:first-child")
-        .attr("r",d.type==="category"?22:d.type==="book"?7:5.5)
-        .style("filter",d.type==="category"?"url(#gg)":"none");
-    })
-    .on("click", function(event,d) {
-      event.stopPropagation();
-      if(d.type==="category") zoomToCat(d);
-      else if(d.url) window.open(d.url,"_blank","noopener,noreferrer");
-    });
-
-  // expose tag click for tooltip inline handler
-  window._tagClick = tag => { tip.classed("on",false); applyTagFilter(tag); };
-
-  // ── zoom to category ─────────────────────────────────────────────────────
-  let focusCat = null;
-  function zoomToCat(cn) {
-    if(activeTagFilter) { activeTagFilter=null; document.getElementById("g-tag-filter").classList.remove("on"); }
-    focusCat=cn.id;
-    const relIds=new Set([cn.id]);
-    gLinks.forEach(l=>{ const s=l.source.id||l.source,t=l.target.id||l.target; if(s===cn.id) relIds.add(t); if(t===cn.id) relIds.add(s); });
-    nodeSel.classed("dimmed",n=>!relIds.has(n.id));
-    linkSel.classed("dimmed",l=>l.source.id!==cn.id&&l.target.id!==cn.id)
-            .attr("stroke",l=>{ if(l.source.id===cn.id||l.target.id===cn.id) return cn.color+"99"; return "#e2e8f022"; });
-    const rel=gNodes.filter(n=>relIds.has(n.id));
-    const xs=rel.map(n=>n.x).filter(Boolean), ys=rel.map(n=>n.y).filter(Boolean);
-    if(!xs.length) return;
-    const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
-    const bw=x1-x0+120,bh=y1-y0+120;
-    const sc=Math.min(5,0.85/Math.max(bw/W,bh/H));
-    const tx=W/2-sc*(x0+bw/2-60),ty=H/2-sc*(y0+bh/2-60);
-    svg.transition().duration(720).ease(d3.easeCubicInOut)
-       .call(zoomB.transform,d3.zoomIdentity.translate(tx,ty).scale(sc));
-    document.getElementById("g-bc-name").textContent=cn.label;
-    document.getElementById("g-breadcrumb").classList.add("on");
-  }
-  function resetZoom() {
-    focusCat=null; activeTagFilter=null;
-    nodeSel.classed("dimmed",false);
-    linkSel.classed("dimmed",false).attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
-    document.getElementById("g-tag-filter").classList.remove("on");
-    svg.transition().duration(600).ease(d3.easeCubicInOut)
-       .call(zoomB.transform,d3.zoomIdentity.translate(W/2,H/2).scale(0.65));
-    document.getElementById("g-breadcrumb").classList.remove("on");
-  }
-  document.getElementById("g-bc-back").addEventListener("click",resetZoom);
-  svg.on("click",function(e){ if(e.target===this&&(focusCat||activeTagFilter)) resetZoom(); });
-
-  // ── graph search ─────────────────────────────────────────────────────────
-  const gSearch = document.getElementById("g-search");
-  const gSearchCount = document.getElementById("g-search-count");
-  gSearch.addEventListener("input",()=>{
-    const q=gSearch.value.trim().toLowerCase();
-    if(!q){ gSearchCount.textContent=""; nodeSel.classed("dimmed",false); linkSel.classed("dimmed",false).attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1"); return; }
-    const matchIds=new Set(gNodes.filter(n=>n.type!=="category"&&((n.title||"").toLowerCase().includes(q)||(n.tags||[]).some(t=>t.toLowerCase().includes(q)))).map(n=>n.id));
-    gSearchCount.textContent=matchIds.size+" match"+( matchIds.size!==1?"es":"");
-    nodeSel.classed("dimmed",n=>n.type!=="category"&&!matchIds.has(n.id));
-    linkSel.classed("dimmed",l=>!matchIds.has(l.source.id)&&!matchIds.has(l.target.id));
-  });
-  gSearch.addEventListener("keydown",e=>{ if(e.key==="Escape"){ gSearch.value=""; gSearch.dispatchEvent(new Event("input")); } });
-
-  // ── legend with counters ─────────────────────────────────────────────────
-  const legEl=document.getElementById("g-legend-items");
-  CATEGORIES.forEach(c=>{
-    // cat_library counts books; other categories count links only
-    const cnt = c.id==="cat_library"
-      ? RESOURCES.filter(r=>r.type==="book" && (r.cats||[]).includes(c.id)).length
-      : RESOURCES.filter(r=>r.type!=="book" && (r.cats||[]).includes(c.id)).length;
-    const item=document.createElement("div"); item.className="g-leg-item";
-    item.innerHTML=`<div class="g-leg-dot" style="background:${c.color}"></div>${c.label}<span class="g-leg-count">${cnt}</span>`;
-    item.title="Click to zoom to "+c.label;
-    item.addEventListener("click",()=>{
-      const catNode=gNodes.find(n=>n.id===c.id);
-      if(catNode) zoomToCat(catNode);
-    });
-    legEl.appendChild(item);
-  });
-
-  // stats bar
-  document.getElementById("g-sn").textContent=gNodes.length;
-  document.getElementById("g-sl").textContent=gLinks.length;
-
-  // ── minimap ──────────────────────────────────────────────────────────────
-  const MM_W=160, MM_H=100;
-  const mmSvg = d3.select("#g-minimap").attr("width",MM_W).attr("height",MM_H);
-  const mmNodes = mmSvg.append("g").attr("id","mm-nodes");
-  const mmViewport = mmSvg.append("rect").attr("fill","#3b82f622").attr("stroke","#3b82f6").attr("stroke-width","1").attr("rx",2);
-
-  let mmScaleX, mmScaleY;
-
-  function updateMinimap() {
-    const xs=gNodes.map(n=>n.x).filter(v=>v!=null), ys=gNodes.map(n=>n.y).filter(v=>v!=null);
-    if(!xs.length) return;
-    const gx0=Math.min(...xs)-20,gx1=Math.max(...xs)+20,gy0=Math.min(...ys)-20,gy1=Math.max(...ys)+20;
-    mmScaleX = d3.scaleLinear().domain([gx0,gx1]).range([2,MM_W-2]);
-    mmScaleY = d3.scaleLinear().domain([gy0,gy1]).range([2,MM_H-2]);
-    mmNodes.selectAll("circle").data(gNodes).join("circle")
-      .attr("cx",d=>mmScaleX(d.x||0)).attr("cy",d=>mmScaleY(d.y||0))
-      .attr("r",d=>d.type==="category"?4:1.8)
-      .attr("fill",d=>d.color||"#94a3b8").attr("opacity",0.7);
-  }
-
-  function updateMinimapViewport(transform) {
-    if(!mmScaleX) return;
-    const k=transform.k, tx=transform.x, ty=transform.y;
-    const vx0=-tx/k, vy0=-ty/k, vx1=vx0+W/k, vy1=vy0+H/k;
-    mmViewport
-      .attr("x",Math.max(0,mmScaleX(vx0))).attr("y",Math.max(0,mmScaleY(vy0)))
-      .attr("width",Math.min(MM_W,mmScaleX(vx1)-mmScaleX(vx0)))
-      .attr("height",Math.min(MM_H,mmScaleY(vy1)-mmScaleY(vy0)));
-  }
-
-  // minimap click → pan
-  mmSvg.on("click",function(event){
-    if(!mmScaleX) return;
-    const [mx,my]=d3.pointer(event);
-    const gx=mmScaleX.invert(mx), gy=mmScaleY.invert(my);
-    const currentT=d3.zoomTransform(svg.node());
-    const tx=W/2-currentT.k*gx, ty=H/2-currentT.k*gy;
-    svg.transition().duration(300).call(zoomB.transform,d3.zoomIdentity.translate(tx,ty).scale(currentT.k));
-  });
-
-  // ── simulation tick ──────────────────────────────────────────────────────
-  let tickCount=0;
-  sim.on("tick",()=>{
-    linkSel.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
-    nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`);
-    tickCount++;
-    if(tickCount%4===0) updateMinimap(); // update minimap every 4 ticks for perf
-    if(resLabelNodes.length) updateResLabelPositions();
-  });
-
-  sim.on("end",()=>{
-    buildResLabels();
-    updateMinimap();
-    const l=document.getElementById("g-loading");
-    if(l){ l.classList.add("off"); setTimeout(()=>l.remove(),500); }
-  });
-  setTimeout(()=>{ const l=document.getElementById("g-loading"); if(l){ l.classList.add("off"); setTimeout(()=>l.remove(),500); } },4000);
-
-  svg.call(zoomB.transform, d3.zoomIdentity.translate(W/2,H/2).scale(0.65));
-}
-
-
-</script>
 </body>
 </html>
