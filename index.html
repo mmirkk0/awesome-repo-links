@@ -54,6 +54,10 @@ li.hidden-item{display:none}
 a{color:#0969da;text-decoration:none}
 a:hover{text-decoration:underline}
 a:visited{color:#6639ba}
+.lib-list{list-style:none;padding:0}
+.lib-list li{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dotted #d0d7de;padding:.2rem 0}
+.lib-list strong{font-style:italic;font-weight:normal}
+.book-author{color:#57606a;font-size:.85rem}
 footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-size:.8rem;text-align:center;color:#57606a}
 .no-results{padding:2rem 0;text-align:center;color:#94a3b8;font-size:.9rem;display:none}
 
@@ -147,6 +151,7 @@ footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-siz
 @media(max-width:600px){
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .abstract{width:100%}
+  .lib-list li{flex-direction:column;border-bottom:none;margin-bottom:.7rem}
   #g-search{width:150px}
   #g-search:focus{width:170px}
 }
@@ -182,6 +187,10 @@ footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-siz
       <div class="abstract"><strong>Abstract—</strong> A curated index of technical resources on Linux Internals, System Design, Algorithms, Distributed Systems, Networking and System Performance.</div>
     </header>
     <div id="list-sections"></div>
+    <section id="library-section" class="list-section-anchor">
+      <h3 style="counter-increment:none">My Library</h3>
+      <ul class="lib-list" id="lib-list"></ul>
+    </section>
     <div class="no-results" id="no-results">No results found.</div>
     <footer><p>References and documentation indexed for study and sharing.</p></footer>
   </div>
@@ -234,6 +243,7 @@ const CATEGORIES = [
   {id:"cat_sysadmin", label:"SysAdmin & Tools",          color:"#ef4444"},
   {id:"cat_ai",       label:"AI / ML / CUDA",            color:"#ec4899"},
   {id:"cat_papers",   label:"Papers",                    color:"#dc2626"},
+  {id:"cat_library",  label:"My Library",                color:"#64748b"},
 ];
 
 const RESOURCES = [
@@ -287,7 +297,7 @@ const RESOURCES = [
   {id:"r46", title:"Performance Analysis Superpowers with eBPF",        url:"https://www.slideshare.net/slideshow/velocity-2017-performance-analysis-superpowers-with-linux-ebpf/77191021", cats:["cat_perf","cat_linux"], tags:["eBPF","performance"]},
   {id:"r47", title:"Computer Architecture: Block I/O Optimization",    url:"https://medium.com/@kimth0312/computer-architecture-block-i-o-optimization-18a3f64458e1", cats:["cat_perf"], tags:["block I/O","architecture"]},
   {id:"r48", title:"Linux Performance Tuning: Hardware Resources",     url:"https://rodrigolira.eti.br/linux-performance-tuning-recursos-de-hardware/", cats:["cat_perf"], tags:["performance","tuning","hardware"]},
-  {id:"r49", title:"LWN: Multi-Queue Block Layer (blk-mq)",            url:"https://lwn.net/Articles/608497/", cats:["cat_perf","cat_linux"], tags:["blk-mq","block"]},
+  {id:"r49", title:"Ftrace: The Hidden Light Switch (LWN)",            url:"https://lwn.net/Articles/608497/", cats:["cat_perf","cat_linux"], tags:["ftrace","tracing","kernel"]},
   {id:"r50", title:"The Hidden Cost of BPF Calls and Overhead",        url:"https://satyamnexus.substack.com/p/the-hidden-cost-of-bpf-calls-and", cats:["cat_perf","cat_linux"], tags:["BPF","overhead"]},
   {id:"r51", title:"Efficient Continuous Latency Monitoring with eBPF",url:"https://research.redhat.com/blog/publication/efficient-continuous-latency-monitoring-with-ebpf/", cats:["cat_perf","cat_linux"], tags:["eBPF","latency"]},
   {id:"r52", title:"Linux Performance & Systems Programming",           url:"https://www.linkedin.com/posts/shajeenahamed_linux-performance-systemsprogramming-share-7486099218567372804-O47p/", cats:["cat_perf"], tags:["performance","systems"]},
@@ -406,6 +416,7 @@ const RESOURCES = [
   {id:"r158",title:"RHEL for Real Time: Tuning Guide (PDF)",                       url:"https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_for_real_time/7/pdf/tuning_guide/Red_Hat_Enterprise_Linux_for_Real_Time-7-Tuning_Guide-en-US.pdf", cats:["cat_perf","cat_linux"], tags:["real-time","RHEL","tuning","PDF"]},
   {id:"r159",title:"The Linux Concept Journey: Futex (Fast Userspace Mutex)",      url:"https://medium.com/@boutnaru/the-linux-concept-journey-futex-fast-userspace-mutex-6e03b51902cd", cats:["cat_linux"], tags:["futex","mutex","userspace","concurrency"]},
   {id:"r160",title:"Off-CPU Analysis (Brendan Gregg)",                             url:"https://www.brendangregg.com/offcpuanalysis.html", cats:["cat_perf"], tags:["off-CPU","profiling","Brendan Gregg","tracing"]},
+  {id:"r160b",title:"Linux perf Examples (Brendan Gregg)",                         url:"https://www.brendangregg.com/perf.html", cats:["cat_perf"], tags:["perf","profiling","Brendan Gregg","tracing"]},
   {id:"r161",title:"Additional Configuration for 400G Speed: NVIDIA ConnectX-7",  url:"https://access.redhat.com/solutions/7053172", cats:["cat_net","cat_perf"], tags:["NVIDIA","ConnectX","400G","Ethernet","Red Hat"]},
   {id:"r162",title:"Multikernel Technologies Blog",                                url:"https://multikernel.io/blog/", cats:["cat_perf","cat_linux"], tags:["multikernel","blog"]},
   {id:"r163",title:"linux-insides: Book Summary (0xAX)",                          url:"https://github.com/0xAX/linux-insides/blob/master/SUMMARY.md", cats:["cat_linux"], tags:["linux","internals","book","learning"]},
@@ -424,6 +435,24 @@ const RESOURCES = [
   // Papers
   {id:"p1", title:"DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale", url:"https://arxiv.org/pdf/2609.22978", cats:["cat_papers","cat_ai"], tags:["DeepSeek","agentic","training","elastic compute","arxiv"]},
   {id:"p2", title:"bpf_fault: Custom Page Fault Handling with BPF (SOSP 2026 — ACM)", url:"https://dl.acm.org/doi/pdf/10.1145/3830418.3843896", cats:["cat_papers","cat_linux","cat_perf"], tags:["BPF","page fault","SOSP 2026","ACM","kernel"]},
+  // Books
+  {id:"b1",  title:"Systems Performance: Enterprise and the Cloud",    url:null,type:"book",cats:["cat_library","cat_perf"],author:"Brendan Gregg",tags:["performance","cloud"]},
+  {id:"b2",  title:"BPF Performance Tools",                            url:null,type:"book",cats:["cat_library","cat_perf","cat_linux"],author:"Brendan Gregg",tags:["BPF","tracing"]},
+  {id:"b3",  title:"Building Data Centers with VXLAN BGP EVPN",       url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["VXLAN","BGP","EVPN"]},
+  {id:"b4",  title:"Routing TCP/IP, Volume I",                         url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["routing","TCP/IP"]},
+  {id:"b5",  title:"Understanding the Linux Kernel",                   url:null,type:"book",cats:["cat_library","cat_linux"],author:"Bovet & Cesati",tags:["linux","kernel"]},
+  {id:"b6",  title:"Linux Kernel Development",                         url:null,type:"book",cats:["cat_library","cat_linux"],author:"Robert Love",tags:["linux","kernel"]},
+  {id:"b7",  title:"Mastering eBPF",                                   url:null,type:"book",cats:["cat_library","cat_linux","cat_perf"],author:"Wiliams D. Brown",tags:["eBPF","BPF"]},
+  {id:"b8",  title:"Designing Data-Intensive Applications",            url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Martin Kleppmann",tags:["data","distributed"]},
+  {id:"b9",  title:"Designing Distributed Systems",                    url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Brendan Burns",tags:["distributed systems"]},
+  {id:"b10", title:"Advanced Data Structures",                         url:null,type:"book",cats:["cat_library","cat_algo"],author:"Peter Brass",tags:["data structures"]},
+  {id:"b11", title:"Algoritmi e strutture dati",                       url:null,type:"book",cats:["cat_library","cat_algo"],author:"Demetrescu, Finocchi, Italiano",tags:["algoritmi"]},
+  {id:"b12", title:"Strutture di dati e algoritmi",                    url:null,type:"book",cats:["cat_library","cat_algo"],author:"Crescenzi et al.",tags:["strutture dati"]},
+  {id:"b13", title:"Differential Equations",                           url:null,type:"book",cats:["cat_library"],author:"Nate Ramer",tags:["math"]},
+  {id:"b14", title:"Amministrare GNU/Linux",                           url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Simone Piccardi",tags:["GNU/Linux"]},
+  {id:"b15", title:"bash Idioms",                                      url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Albing & Vossen",tags:["bash","shell"]},
+  {id:"b16", title:"Hands-on Go Programming",                          url:null,type:"book",cats:["cat_library"],author:"Singh & Singh",tags:["Go"]},
+  {id:"b17", title:"Ansible for DevOps",                               url:null,type:"book",cats:["cat_library","cat_devops"],author:"Jeff Geerling",tags:["Ansible","DevOps"]},
 ];
 
 // ═══════════════════════════════ SHARED SETUP ════════════════════════════════
@@ -455,7 +484,7 @@ function buildListView() {
   // jump nav
   const nav = document.getElementById('jump-nav');
   CATEGORIES.forEach(cat => {
-    const n = RESOURCES.filter(r=>r.cats[0]===cat.id).length;
+    const n = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id).length;
     if (!n) return;
     const pill = document.createElement('button');
     pill.className = 'jump-pill';
@@ -470,7 +499,7 @@ function buildListView() {
   // sections
   const container = document.getElementById('list-sections');
   CATEGORIES.forEach(cat => {
-    const items = RESOURCES.filter(r=>r.cats[0]===cat.id);
+    const items = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id);
     if (!items.length) return;
     const sec = document.createElement('section');
     sec.className = 'list-section-anchor';
@@ -480,6 +509,13 @@ function buildListView() {
     container.appendChild(sec);
   });
 
+  // library
+  const libEl = document.getElementById('lib-list');
+  RESOURCES.filter(r=>r.type==='book').forEach(b=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>${b.title}</strong><span class="book-author">${b.author}</span>`;
+    libEl.appendChild(li);
+  });
 }
 
 buildListView();
@@ -511,19 +547,21 @@ listSearch.addEventListener('keydown', e => { if(e.key==='Escape') { listSearch.
 // ════════════════════════════════ STATS VIEW ═════════════════════════════════
 
 function buildStats() {
+  const links = RESOURCES.filter(r=>r.type!=='book');
+  const books = RESOURCES.filter(r=>r.type==='book');
   const allTags = RESOURCES.flatMap(r=>r.tags||[]);
   const tagFreq = {};
   allTags.forEach(t=>{ tagFreq[t]=(tagFreq[t]||0)+1; });
   const topTags = Object.entries(tagFreq).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  const multiCat = RESOURCES.filter(r=>(r.cats||[]).length>=2);
+  const multiCat = RESOURCES.filter(r=>r.type!=='book' && (r.cats||[]).length>=2);
 
   // cards
   const cards = document.getElementById('stats-cards');
   [
-    {val:RESOURCES.length, lbl:'Total Links'},
-    {val:CATEGORIES.length, lbl:'Categories'},
+    {val:links.length,  lbl:'Total Links'},
+    {val:books.length,  lbl:'Books'},
+    {val:RESOURCES.length, lbl:'Total Resources'},
     {val:multiCat.length, lbl:'Cross-Category'},
-    {val:Object.keys(tagFreq).length, lbl:'Unique Tags'},
   ].forEach(({val,lbl})=>{
     const d=document.createElement('div'); d.className='stat-card';
     d.innerHTML=`<div class="val">${val}</div><div class="lbl">${lbl}</div>`;
@@ -582,8 +620,8 @@ function initGraph() {
   RESOURCES.forEach(r => {
     const mc = r.cats&&r.cats[0];
     const color = (mc&&catMap[mc]) ? catMap[mc].color : "#64748b";
-    gNodes.push({id:r.id,title:r.title,url:r.url,type:"resource",
-      color:color,cats:r.cats||[],tags:r.tags||[],author:r.author||null});
+    gNodes.push({id:r.id,title:r.title,url:r.url,type:r.type==="book"?"book":"resource",
+      color:r.type==="book"?"#64748b":color,cats:r.cats||[],tags:r.tags||[],author:r.author||null});
     (r.cats||[]).forEach(cid => gLinks.push({source:cid,target:r.id}));
   });
 
@@ -651,8 +689,8 @@ function initGraph() {
 
   // circles
   nodeSel.append("circle")
-    .attr("r", d=>d.type==="category"?22:5.5)
-      .attr("fill", d=>d.type==="category" ? d.color+"22" : d.color+"ee")
+    .attr("r", d=>d.type==="category"?22:d.type==="book"?7:5.5)
+      .attr("fill", d=>{ if(d.type==="category") return d.color+"22"; if(d.type==="book") return d.color+"dd"; return d.color+"ee"; })
     .attr("stroke", d=>d.color)
     .attr("stroke-width", d=>d.type==="category"?2.5:1.5)
     .style("filter", d=>d.type==="category"?"url(#gg)":"none");
@@ -673,7 +711,7 @@ function initGraph() {
 
   function buildResLabels() {
     resLabelGroup.selectAll("*").remove();
-    resLabelNodes = gNodes.filter(n=>n.type==="resource");
+    resLabelNodes = gNodes.filter(n=>n.type==="resource"||n.type==="book");
     resLabelGroup.selectAll("text").data(resLabelNodes).join("text")
       .attr("class","g-node-label")
       .attr("x", d=>d.x||0).attr("y", d=>(d.y||0)+11)
@@ -737,7 +775,7 @@ function initGraph() {
                 .classed("highlighted",l=>l.source.id===d.id||l.target.id===d.id)
                 .attr("stroke",l=>{ if(l.source.id===d.id||l.target.id===d.id) return d.color; return l.source.color?l.source.color+"22":"#e2e8f0"; });
       }
-      d3.select(this).select("circle:first-child").attr("r",9).style("filter","url(#ggs)");
+      d3.select(this).select("circle:first-child").attr("r",d.type==="book"?10:9).style("filter","url(#ggs)");
     })
     .on("mousemove", function(event) {
       tip.style("left",(Math.min(event.clientX+16,window.innerWidth-310))+"px")
@@ -752,7 +790,7 @@ function initGraph() {
                 .attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
       }
       d3.select(this).select("circle:first-child")
-        .attr("r",d.type==="category"?22:5.5)
+        .attr("r",d.type==="category"?22:d.type==="book"?7:5.5)
         .style("filter",d.type==="category"?"url(#gg)":"none");
     })
     .on("click", function(event,d) {
