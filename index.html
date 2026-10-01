@@ -54,10 +54,6 @@ li.hidden-item{display:none}
 a{color:#0969da;text-decoration:none}
 a:hover{text-decoration:underline}
 a:visited{color:#6639ba}
-.lib-list{list-style:none;padding:0}
-.lib-list li{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dotted #d0d7de;padding:.2rem 0}
-.lib-list strong{font-style:italic;font-weight:normal}
-.book-author{color:#57606a;font-size:.85rem}
 footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-size:.8rem;text-align:center;color:#57606a}
 .no-results{padding:2rem 0;text-align:center;color:#94a3b8;font-size:.9rem;display:none}
 
@@ -151,7 +147,6 @@ footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-siz
 @media(max-width:600px){
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .abstract{width:100%}
-  .lib-list li{flex-direction:column;border-bottom:none;margin-bottom:.7rem}
   #g-search{width:150px}
   #g-search:focus{width:170px}
 }
@@ -187,10 +182,6 @@ footer{margin-top:2.5rem;padding-top:.8rem;border-top:1px solid #e5e7eb;font-siz
       <div class="abstract"><strong>Abstract—</strong> A curated index of technical resources on Linux Internals, System Design, Algorithms, Distributed Systems, Networking and System Performance.</div>
     </header>
     <div id="list-sections"></div>
-    <section id="library-section" class="list-section-anchor">
-      <h3 style="counter-increment:none">My Library</h3>
-      <ul class="lib-list" id="lib-list"></ul>
-    </section>
     <div class="no-results" id="no-results">No results found.</div>
     <footer><p>References and documentation indexed for study and sharing.</p></footer>
   </div>
@@ -243,7 +234,6 @@ const CATEGORIES = [
   {id:"cat_sysadmin", label:"SysAdmin & Tools",          color:"#ef4444"},
   {id:"cat_ai",       label:"AI / ML / CUDA",            color:"#ec4899"},
   {id:"cat_papers",   label:"Papers",                    color:"#dc2626"},
-  {id:"cat_library",  label:"My Library",                color:"#64748b"},
 ];
 
 const RESOURCES = [
@@ -404,7 +394,6 @@ const RESOURCES = [
   {id:"r146",title:"Creating a Performance-Focused Kernel (Reddit/Gentoo)",  url:"https://www.reddit.com/r/Gentoo/comments/1ejp5yj/creating_a_performancefocused_kernel/", cats:["cat_linux","cat_perf"], tags:["kernel","performance","Gentoo","tuning","custom kernel"]},
   {id:"r147",title:"Linux Kernel Tweet (l1vsun)",                             url:"https://x.com/l1vsun/status/2088993353111159216?s=46", cats:["cat_linux"], tags:["kernel","tweet"]},
   {id:"r148",title:"eBPF Kernel Parameter Tuning (OneUptime)",                url:"https://oneuptime.com/blog/post/2026-01-07-ebpf-kernel-parameter-tuning/view", cats:["cat_linux","cat_perf"], tags:["eBPF","kernel","tuning","parameters"]},
-  {id:"r149",title:"Book Direct Download",                                    url:"https://book-direct-download.lovable.app/", cats:["cat_library"], tags:["books","download","free"]},
   {id:"r150",title:"My First Linux Kernel Contribution After a Dozen Years",  url:"https://www.linkedin.com/pulse/its-never-too-late-my-first-linux-kernel-after-dozen-years-baing-jjlfc", cats:["cat_linux"], tags:["kernel","contribution","experience"]},
   {id:"r151",title:"How to Deal with Latency Introduced by Disk I/O",        url:"https://jeremyeder.com/2012/10/18/how-to-deal-with-latency-introduced-by-disk-io-activity/", cats:["cat_perf","cat_linux"], tags:["latency","disk","I/O","tuning"]},
   {id:"r152",title:"Extend Layer 2 Networks into Red Hat OpenShift Virtualization with BGP and EVPN", url:"https://developers.redhat.com/articles/2026/09/03/extend-layer-2-networks-into-red-hat-openshift-virtualization-with-bgp-and-evpn", cats:["cat_net","cat_devops","cat_virt"], tags:["OpenShift","BGP","EVPN","networking","virtualization"]},
@@ -435,24 +424,6 @@ const RESOURCES = [
   // Papers
   {id:"p1", title:"DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale", url:"https://arxiv.org/pdf/2609.22978", cats:["cat_papers","cat_ai"], tags:["DeepSeek","agentic","training","elastic compute","arxiv"]},
   {id:"p2", title:"bpf_fault: Custom Page Fault Handling with BPF (SOSP 2026 — ACM)", url:"https://dl.acm.org/doi/pdf/10.1145/3830418.3843896", cats:["cat_papers","cat_linux","cat_perf"], tags:["BPF","page fault","SOSP 2026","ACM","kernel"]},
-  // Books
-  {id:"b1",  title:"Systems Performance: Enterprise and the Cloud",    url:null,type:"book",cats:["cat_library","cat_perf"],author:"Brendan Gregg",tags:["performance","cloud"]},
-  {id:"b2",  title:"BPF Performance Tools",                            url:null,type:"book",cats:["cat_library","cat_perf","cat_linux"],author:"Brendan Gregg",tags:["BPF","tracing"]},
-  {id:"b3",  title:"Building Data Centers with VXLAN BGP EVPN",       url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["VXLAN","BGP","EVPN"]},
-  {id:"b4",  title:"Routing TCP/IP, Volume I",                         url:null,type:"book",cats:["cat_library","cat_net"],author:"Cisco",tags:["routing","TCP/IP"]},
-  {id:"b5",  title:"Understanding the Linux Kernel",                   url:null,type:"book",cats:["cat_library","cat_linux"],author:"Bovet & Cesati",tags:["linux","kernel"]},
-  {id:"b6",  title:"Linux Kernel Development",                         url:null,type:"book",cats:["cat_library","cat_linux"],author:"Robert Love",tags:["linux","kernel"]},
-  {id:"b7",  title:"Mastering eBPF",                                   url:null,type:"book",cats:["cat_library","cat_linux","cat_perf"],author:"Wiliams D. Brown",tags:["eBPF","BPF"]},
-  {id:"b8",  title:"Designing Data-Intensive Applications",            url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Martin Kleppmann",tags:["data","distributed"]},
-  {id:"b9",  title:"Designing Distributed Systems",                    url:null,type:"book",cats:["cat_library","cat_sysdes"],author:"Brendan Burns",tags:["distributed systems"]},
-  {id:"b10", title:"Advanced Data Structures",                         url:null,type:"book",cats:["cat_library","cat_algo"],author:"Peter Brass",tags:["data structures"]},
-  {id:"b11", title:"Algoritmi e strutture dati",                       url:null,type:"book",cats:["cat_library","cat_algo"],author:"Demetrescu, Finocchi, Italiano",tags:["algoritmi"]},
-  {id:"b12", title:"Strutture di dati e algoritmi",                    url:null,type:"book",cats:["cat_library","cat_algo"],author:"Crescenzi et al.",tags:["strutture dati"]},
-  {id:"b13", title:"Differential Equations",                           url:null,type:"book",cats:["cat_library"],author:"Nate Ramer",tags:["math"]},
-  {id:"b14", title:"Amministrare GNU/Linux",                           url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Simone Piccardi",tags:["GNU/Linux"]},
-  {id:"b15", title:"bash Idioms",                                      url:null,type:"book",cats:["cat_library","cat_sysadmin"],author:"Albing & Vossen",tags:["bash","shell"]},
-  {id:"b16", title:"Hands-on Go Programming",                          url:null,type:"book",cats:["cat_library"],author:"Singh & Singh",tags:["Go"]},
-  {id:"b17", title:"Ansible for DevOps",                               url:null,type:"book",cats:["cat_library","cat_devops"],author:"Jeff Geerling",tags:["Ansible","DevOps"]},
 ];
 
 // ═══════════════════════════════ SHARED SETUP ════════════════════════════════
@@ -484,7 +455,7 @@ function buildListView() {
   // jump nav
   const nav = document.getElementById('jump-nav');
   CATEGORIES.forEach(cat => {
-    const n = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id).length;
+    const n = RESOURCES.filter(r=>r.cats[0]===cat.id).length;
     if (!n) return;
     const pill = document.createElement('button');
     pill.className = 'jump-pill';
@@ -499,7 +470,7 @@ function buildListView() {
   // sections
   const container = document.getElementById('list-sections');
   CATEGORIES.forEach(cat => {
-    const items = RESOURCES.filter(r=>r.type!=='book' && r.cats[0]===cat.id);
+    const items = RESOURCES.filter(r=>r.cats[0]===cat.id);
     if (!items.length) return;
     const sec = document.createElement('section');
     sec.className = 'list-section-anchor';
@@ -509,13 +480,6 @@ function buildListView() {
     container.appendChild(sec);
   });
 
-  // library
-  const libEl = document.getElementById('lib-list');
-  RESOURCES.filter(r=>r.type==='book').forEach(b=>{
-    const li = document.createElement('li');
-    li.innerHTML = `<strong>${b.title}</strong><span class="book-author">${b.author}</span>`;
-    libEl.appendChild(li);
-  });
 }
 
 buildListView();
@@ -547,21 +511,19 @@ listSearch.addEventListener('keydown', e => { if(e.key==='Escape') { listSearch.
 // ════════════════════════════════ STATS VIEW ═════════════════════════════════
 
 function buildStats() {
-  const links = RESOURCES.filter(r=>r.type!=='book');
-  const books = RESOURCES.filter(r=>r.type==='book');
   const allTags = RESOURCES.flatMap(r=>r.tags||[]);
   const tagFreq = {};
   allTags.forEach(t=>{ tagFreq[t]=(tagFreq[t]||0)+1; });
   const topTags = Object.entries(tagFreq).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  const multiCat = RESOURCES.filter(r=>r.type!=='book' && (r.cats||[]).length>=2);
+  const multiCat = RESOURCES.filter(r=>(r.cats||[]).length>=2);
 
   // cards
   const cards = document.getElementById('stats-cards');
   [
-    {val:links.length,  lbl:'Total Links'},
-    {val:books.length,  lbl:'Books'},
-    {val:RESOURCES.length, lbl:'Total Resources'},
+    {val:RESOURCES.length, lbl:'Total Links'},
+    {val:CATEGORIES.length, lbl:'Categories'},
     {val:multiCat.length, lbl:'Cross-Category'},
+    {val:Object.keys(tagFreq).length, lbl:'Unique Tags'},
   ].forEach(({val,lbl})=>{
     const d=document.createElement('div'); d.className='stat-card';
     d.innerHTML=`<div class="val">${val}</div><div class="lbl">${lbl}</div>`;
@@ -620,8 +582,8 @@ function initGraph() {
   RESOURCES.forEach(r => {
     const mc = r.cats&&r.cats[0];
     const color = (mc&&catMap[mc]) ? catMap[mc].color : "#64748b";
-    gNodes.push({id:r.id,title:r.title,url:r.url,type:r.type==="book"?"book":"resource",
-      color:r.type==="book"?"#64748b":color,cats:r.cats||[],tags:r.tags||[],author:r.author||null});
+    gNodes.push({id:r.id,title:r.title,url:r.url,type:"resource",
+      color:color,cats:r.cats||[],tags:r.tags||[],author:r.author||null});
     (r.cats||[]).forEach(cid => gLinks.push({source:cid,target:r.id}));
   });
 
@@ -689,8 +651,8 @@ function initGraph() {
 
   // circles
   nodeSel.append("circle")
-    .attr("r", d=>d.type==="category"?22:d.type==="book"?7:5.5)
-    .attr("fill", d=>{ if(d.type==="category") return d.color+"22"; if(d.type==="book") return d.color+"dd"; return d.color+"ee"; })
+    .attr("r", d=>d.type==="category"?22:5.5)
+      .attr("fill", d=>d.type==="category" ? d.color+"22" : d.color+"ee")
     .attr("stroke", d=>d.color)
     .attr("stroke-width", d=>d.type==="category"?2.5:1.5)
     .style("filter", d=>d.type==="category"?"url(#gg)":"none");
@@ -711,7 +673,7 @@ function initGraph() {
 
   function buildResLabels() {
     resLabelGroup.selectAll("*").remove();
-    resLabelNodes = gNodes.filter(n=>n.type==="resource"||n.type==="book");
+    resLabelNodes = gNodes.filter(n=>n.type==="resource");
     resLabelGroup.selectAll("text").data(resLabelNodes).join("text")
       .attr("class","g-node-label")
       .attr("x", d=>d.x||0).attr("y", d=>(d.y||0)+11)
@@ -775,7 +737,7 @@ function initGraph() {
                 .classed("highlighted",l=>l.source.id===d.id||l.target.id===d.id)
                 .attr("stroke",l=>{ if(l.source.id===d.id||l.target.id===d.id) return d.color; return l.source.color?l.source.color+"22":"#e2e8f0"; });
       }
-      d3.select(this).select("circle:first-child").attr("r",d.type==="book"?10:9).style("filter","url(#ggs)");
+      d3.select(this).select("circle:first-child").attr("r",9).style("filter","url(#ggs)");
     })
     .on("mousemove", function(event) {
       tip.style("left",(Math.min(event.clientX+16,window.innerWidth-310))+"px")
@@ -790,7 +752,7 @@ function initGraph() {
                 .attr("stroke",l=>l.source.color?l.source.color+"55":"#cbd5e1");
       }
       d3.select(this).select("circle:first-child")
-        .attr("r",d.type==="category"?22:d.type==="book"?7:5.5)
+        .attr("r",d.type==="category"?22:5.5)
         .style("filter",d.type==="category"?"url(#gg)":"none");
     })
     .on("click", function(event,d) {
